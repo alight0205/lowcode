@@ -84,7 +84,7 @@ const Workbanch = () => {
   // }
   return (
     <div className='workbanch-container' ref={workbanchContainer}>
-      <button onClick={delBtn}>测试删除</button>
+<!--       <button onClick={delBtn}>测试删除</button> -->
       <div>{JSON.stringify(workbanchList)}</div>
       {workbanchList.map((item: CompItem_Workbanch, index: number) => (
         componentMap[item.type]({
