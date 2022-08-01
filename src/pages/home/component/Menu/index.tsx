@@ -1,24 +1,15 @@
 
-import { Button } from 'antd'
-import { ReactNode, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addElement, setActiveItem } from '../../../../store/slices/workbanchList'
-import { CompItem_Menu } from '../../../../utils/interface'
+import { ComponentMenuState, WorkbanchListState, CompItem_Menu } from '../../../../utils/interface'
 import { componentMap } from '../../../../utils/componentMap'
-
-type ComponentList = CompItem_Menu[]
-type State = {
-  componentMenu: {
-    data: ComponentList,
-    activeItem: CompItem_Menu
-  }
-}
 
 const Menu = () => {
   const dispatch = useDispatch()
   const menuContainer = useRef<HTMLDivElement | null>(null)
-  const componentMenu: any = useSelector<State>(state => state.componentMenu.data)
-
+  const componentMenu: any = useSelector<ComponentMenuState>(state => state.componentMenu.data)
+  const workbanchCompLength: any = useSelector<WorkbanchListState>(state => state.workbanchList.data.length)
   //- 记录鼠标按下后的位置信息
   const dragInfo = useRef({
     compLeft: 0,    //- 拖拽开始，组件的left
@@ -79,8 +70,8 @@ const Menu = () => {
     menuContainer.current?.removeChild(moveDom)
     document.onmousemove = null;
     document.onmouseup = null;
-    if (activeCompInfo.current.left < 0) return
-
+    const containerWidth = menuContainer.current?.getClientRects()[0].width ? menuContainer.current?.getClientRects()[0].width : 300
+    if (activeCompInfo.current.left < 0 || e.clientX < containerWidth) return
     let addItem = {
       type: item.type,
       args: {
@@ -89,12 +80,12 @@ const Menu = () => {
           ...item.args.style,
           position: 'absolute',
           left: activeCompInfo.current.left + 'px',
-          top: activeCompInfo.current.top + 'px'
+          top: activeCompInfo.current.top + 10 + 'px'
         }
       }
     }
     dispatch(addElement(addItem))
-    dispatch(setActiveItem(addItem))
+    dispatch(setActiveItem({ index: workbanchCompLength, element: addItem }))
   }
 
   return (
