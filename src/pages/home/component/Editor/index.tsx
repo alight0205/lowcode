@@ -10,7 +10,6 @@ type State = {
 }
 const ComponentEdit = () => {
   const EditInfo = useSelector<State>(state => state.workbanchList.activeItem);
-  console.log(EditInfo)
   return <div className="component-edit-container">
     {JSON.stringify(EditInfo)}
   </div>;

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { WorkbanchListState } from "../../utils/interface";
 
 export const workbanchListSlice = createSlice({
     name: "workbanchList",
@@ -16,6 +17,16 @@ export const workbanchListSlice = createSlice({
             // }
         ],
         activeItem: null
+        // {
+        //     index:0,
+        //     element:{
+        //         type: 'button',
+        //         args: {
+        //             left:'100px',
+        //             top:'100px'
+        //         }
+        //     }
+        // }
     },
     reducers: {
         addElement: (state: any, { payload: { type, args, style } }: any) => {
@@ -25,6 +36,9 @@ export const workbanchListSlice = createSlice({
                 style
             });
         },
+        delElement: (state: any, { payload: { index } }: any) => {
+            state.data.splice(index, 1)
+        },
         setElement: (state: any, { payload: { index, element: { type, args, style } } }: any) => {
             state.data.splice(index, 1, {
                 type,
@@ -32,11 +46,18 @@ export const workbanchListSlice = createSlice({
                 style
             })
         },
-        setActiveItem: (state: any, { payload }: any) => {
-            state.activeItem = payload
+        setActiveItem: (state: any, { payload: { index, element: { type, args, style } } }: any) => {
+            state.activeItem = {
+                index,
+                element: {
+                    type,
+                    args,
+                    style
+                }
+            }
         }
     },
 });
 
-export const { addElement, setElement, setActiveItem } = workbanchListSlice.actions;
+export const { addElement, delElement, setElement, setActiveItem } = workbanchListSlice.actions;
 export default workbanchListSlice.reducer;
