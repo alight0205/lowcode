@@ -14,8 +14,6 @@ const Workbanch = () => {
 
   //- 记录鼠标按下后的位置信息
   const dragInfo = useRef({
-    // compLeft: 0,    //- 拖拽开始，组件的left
-    // compTop: 0,    //- 拖拽开始，组件的top
     mouseX: 0,      //- 拖拽开始，鼠标的left
     mouseY: 0       //- 拖拽开始，鼠标的top
   })
@@ -70,18 +68,6 @@ const Workbanch = () => {
   const delBtn = () => {
     dispatch(delElement({ id: 0 }))
   }
-  // const addBtn = () => {
-  // dispatch(addElement({
-  //   type: 'text', args: {
-  //     value: '文本',
-  //     style: {
-  //       left: '50px',
-  //       top: '50px'
-  //     }
-  //   }
-  // }))
-  // dispatch(setElement({ index: 0, element: { type: 'button', args: { value: '按钮2', style: { left: '120px', top: '120px' } } } }))
-  // }
   return (
     <div className='workbanch-container' ref={workbanchContainer}>
       {/* <button onClick={delBtn}>测试删除</button> */}
