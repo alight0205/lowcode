@@ -20,15 +20,10 @@ export interface CompItem_Workbanch{
     type: string,
     args:any,
 }
-//- 工作区_活动组件
-export interface CompItem_Active{
-    id:number,
-    element:CompItem_Workbanch
-}
 //- 工作区数据仓库
 export interface WorkbanchListState{
     workbanchList:{
         data:CompItem_Workbanch[],
-        activeItem:CompItem_Active
+        activeItem:CompItem_Workbanch
     }
 }
