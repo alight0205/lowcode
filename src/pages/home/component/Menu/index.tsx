@@ -28,8 +28,6 @@ const Menu = () => {
   let moveDom: any;
 
   const mousedown = (e: React.MouseEvent<HTMLDivElement>, item: CompItem_Menu) => {
-    console.log('mousedown', item)
-
     //- 创建一个dom元素模拟拖拽效果
     moveDom = (e.target as HTMLElement).cloneNode(true);
     moveDom.classList.add('moveDom')
@@ -85,7 +83,6 @@ const Menu = () => {
       }
     }
     dispatch(addElement(addItem))
-    dispatch(setActiveItem({ index: workbanchCompLength, element: addItem }))
   }
 
   return (
