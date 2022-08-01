@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { WorkbanchListState } from "../../utils/interface";
+import { CompItem_Workbanch } from "../../utils/interface";
 
 export const workbanchListSlice = createSlice({
     name: "workbanchList",
     initialState: {
         data: [
             // {
+            //     id: 0,
             //     type: 'button',
             //     args: {
             //         value: '按钮',
@@ -16,9 +17,9 @@ export const workbanchListSlice = createSlice({
             //     },
             // }
         ],
-        activeItem: null
+        activeItem: null,
         // {
-        //     index:0,
+        //     id:0,
         //     element:{
         //         type: 'button',
         //         args: {
@@ -27,33 +28,40 @@ export const workbanchListSlice = createSlice({
         //         }
         //     }
         // }
+        length: 0
     },
     reducers: {
         addElement: (state: any, { payload: { type, args, style } }: any) => {
             state.data.push({
+                id: state.length,
                 type,
                 args,
                 style
             });
+            state.length += 1;
         },
-        delElement: (state: any, { payload: { index } }: any) => {
-            state.data.splice(index, 1)
+        delElement: (state: any, { payload: { id } }: any) => {
+            const elementIndex = state.data.findIndex((item: any) => item.id === id)
+            if (elementIndex == -1) return;
+            state.data.splice(elementIndex, 1)
         },
-        setElement: (state: any, { payload: { index, element: { type, args, style } } }: any) => {
-            state.data.splice(index, 1, {
+        setElement: (state: any, { payload: { id, element: { type, args, style } } }: any) => {
+            const elementIndex = state.data.findIndex((item: any) => item.id === id)
+            if (elementIndex == -1) return;
+            state.data.splice(elementIndex, 1, {
+                id,
                 type,
                 args,
                 style
             })
+
         },
-        setActiveItem: (state: any, { payload: { index, element: { type, args, style } } }: any) => {
+        setActiveItem: (state: any, { payload: { id, type, args, style } }: any) => {
             state.activeItem = {
-                index,
-                element: {
-                    type,
-                    args,
-                    style
-                }
+                id,
+                type,
+                args,
+                style
             }
         }
     },

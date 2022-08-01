@@ -16,12 +16,13 @@ export interface ComponentMenuState{
 //- 工作区
 //- 工作区组件列表_组件项
 export interface CompItem_Workbanch{
+    id:number,
     type: string,
     args:any,
 }
 //- 工作区_活动组件
 export interface CompItem_Active{
-    index:number,
+    id:number,
     element:CompItem_Workbanch
 }
 //- 工作区数据仓库

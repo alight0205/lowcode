@@ -21,14 +21,14 @@ const Workbanch = () => {
   })
 
   //- 组件点击事件
-  const onclick = (item: CompItem_Workbanch, index: number) => {
-    dispatch(setActiveItem({ index, element: item }))
+  const onclick = (item: CompItem_Workbanch) => {
+    dispatch(setActiveItem(item))
   }
 
   //- 组件鼠标按下
-  const mousedown = (e: React.MouseEvent<HTMLDivElement>, item: CompItem_Workbanch, index: number) => {
-    document.onmousemove = (e) => mousemove(e, item, index)
-    document.onmouseup = (e) => mouseup(e, item, index)
+  const mousedown = (e: React.MouseEvent<HTMLDivElement>, item: CompItem_Workbanch) => {
+    document.onmousemove = (e) => mousemove(e, item)
+    document.onmouseup = (e) => mouseup(e, item)
 
     //- 当鼠标按下时，记录当前的各项数据
     dragInfo.current = {
@@ -37,7 +37,7 @@ const Workbanch = () => {
     }
   }
   //- 组件鼠标按下后移动
-  const mousemove = (e: MouseEvent, item: CompItem_Workbanch, index: number) => {
+  const mousemove = (e: MouseEvent, item: CompItem_Workbanch) => {
     const { mouseX, mouseY } = dragInfo.current;
     const disX = e.clientX - mouseX;
     const disY = e.clientY - mouseY;
@@ -45,7 +45,7 @@ const Workbanch = () => {
     dispatch(
       setElement(
         {
-          index: index,
+          id: item.id,
           element: {
             type: item.type,
             args:
@@ -62,13 +62,13 @@ const Workbanch = () => {
         }))
   }
   //- 组件鼠标松开
-  const mouseup = (e: MouseEvent, item: CompItem_Workbanch, index: number) => {
+  const mouseup = (e: MouseEvent, item: CompItem_Workbanch) => {
     document.onmousemove = null;
     document.onmouseup = null;
 
   }
   const delBtn = () => {
-    dispatch(delElement({ index: 0 }))
+    dispatch(delElement({ id: 0 }))
   }
   // const addBtn = () => {
   // dispatch(addElement({
@@ -84,13 +84,14 @@ const Workbanch = () => {
   // }
   return (
     <div className='workbanch-container' ref={workbanchContainer}>
-      <button onClick={delBtn}>测试删除</button>
+      {/* <button onClick={delBtn}>测试删除</button> */}
       <div>{JSON.stringify(workbanchList)}</div>
-      {workbanchList.map((item: CompItem_Workbanch, index: number) => (
+      {workbanchList.map((item: CompItem_Workbanch) => (
         componentMap[item.type]({
           ...item.args,
-          key: index, onmousedown: (e: any) => mousedown(e, item, index),
-          onclick: () => onclick(item, index)
+          key: item.id,
+          onmousedown: (e: any) => mousedown(e, item),
+          onclick: () => onclick(item)
         })
       ))}
     </div >
