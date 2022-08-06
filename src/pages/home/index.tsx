@@ -1,12 +1,8 @@
-import React, { useRef } from "react";
-import ComponentEdit from "./component/Editor";
-import ComponentList from "./component/Menu";
-import Workbanch from "./component/Workbanch";
+import React from "react";
+import { HomeBody } from "./component/Body";
 import "./index.less";
 const Home = () => {
 
-	const workbanchContainer = useRef( null as null | {} as HTMLDivElement);
-	
 
 	return (
 		<div className="home-container">
@@ -15,11 +11,7 @@ const Home = () => {
 					路过的导航栏
 				</div>
 				{/* body */}
-				<div className="home-body">
-					<ComponentList ref={workbanchContainer}/>
-					<Workbanch ref={workbanchContainer}/>
-					<ComponentEdit />
-				</div>
+				<HomeBody />
 				{/* footer */}
 				<div className="home-footer">
 

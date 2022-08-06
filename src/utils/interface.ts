@@ -4,7 +4,7 @@
 export interface CompItem_Menu {
     type: string,
     name: string,
-    args: any
+    args: any,
 }
 //- 组件列表数据仓库
 export interface ComponentMenuState{

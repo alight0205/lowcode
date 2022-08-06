@@ -1,10 +1,9 @@
 
-import React,{ useRef } from 'react'
+import React,{ useImperativeHandle, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addElement, setActiveItem } from '../../../../store/slices/workbanchList'
 import { ComponentMenuState, WorkbanchListState, CompItem_Menu } from '../../../../utils/interface'
 import { componentMap } from '../../../../utils/componentMap'
-
 
 const Menu = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) => {
   const dispatch = useDispatch()
@@ -86,15 +85,15 @@ const Menu = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) => {
     dispatch(addElement(addItem))
   }
 
-
-
+  /*  容器的Ref */
+  let containerRef = useRef( null as null | {} as HTMLDivElement);
   // 组件拖拽逻辑，处理组件从左侧拖到右侧
   const menuDraggier = (() => {
     // 拖动组件的ref
     const dragData = useRef({
       dragComponent: null as null | CompItem_Menu
     })
-    // containerRef
+    // ref
 
   })();
 

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { CompItem_Workbanch, WorkbanchListState } from '../../../../utils/interface'
 import { setElement, setActiveItem, delElement } from '../../../../store/slices/workbanchList'
 import { componentMap } from '../../../../utils/componentMap'
+import { WorkbanchItem } from './WorkbanchItem'
 
 const Workbanch = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) => {
   const dispatch = useDispatch()
@@ -68,20 +69,25 @@ const Workbanch = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) =
   const delBtn = () => {
     dispatch(delElement({ id: 0 }))
   }
+  /******************************************* */
+  /*  new code */
+  const elRef = useRef({} as HTMLDivElement);
+
+  /*  code end*/
   return (
     <div className='workbanch-container' ref = {ref}>
       {/* <button onClick={delBtn}>测试删除</button> */}
       <div>{JSON.stringify(workbanchList)}</div>
-      {workbanchList.map((item: CompItem_Workbanch) => {
-        return (
-          componentMap[item.type]({
-            ...item.args,
-            key: item.id,
-            onmousedown: (e: any) => mousedown(e, item),
-            onclick: () => onclick(item)
-          })
-        )
-})
+      {
+        workbanchList.map((item: CompItem_Workbanch) => {
+          // console.log(item);
+          
+          return (
+            <WorkbanchItem key={item.id}
+                           item={item}
+            />
+          )
+        })
       }
     </div >
   )
