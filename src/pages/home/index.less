@@ -1,87 +1,101 @@
 @listWidth: 300px;
 @editWidth: 300px;
+@headHeight: 44px;
+@borderWidth: 2px;  // 边框宽度
+// 颜色
 @primary: rgb(48, 115, 240);
+@ibc: #dcdfe6;             // 边框色
+@ibl: #ebeef5;             // 边框色(轻)
+@itc: #314659;             // 字体色
+@icc: rgba(0,0,0,0.45);    // 图标颜色
+@boxShadowColor: #f0f1f2;  // 阴影颜色
 .home-container {
-  position: relative;
   background-color: #eee;
-  height: 100vh;
-  .component-list-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
+  // height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .home-head {
+    height: @headHeight;
+    background-color: #fff;
+    border: solid @borderWidth @ibc;
+    text-align: center;
+  }
+
+  .home-body {
+    top: @headHeight;
     left: 0;
-    width: @listWidth;
-    height: 100%;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .component-list-item {
-      position: relative;
-      margin-top: 10px;
-      width: 80%;
-      min-height: 100px;
-      line-height: 40px;
-      font-size: 16px;
-      text-align: center;
-      border: 1px solid @primary;
-      background-color: #fff;
-      z-index: 10;
-      &.moveDom {
-        opacity: 0.8;
-      }
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        cursor: move;
-      }
-      .name {
-        position: absolute;
-        width: 60px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 14px;
-        color: white;
-        background-color: @primary;
-      }
-      .preview {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-  }
-  .workbanch-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: @listWidth;
-    right: @editWidth;
-    background-color: #fff;
-    border: 1px solid;
-    .component-item {
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        cursor: move;
-      }
-    }
-  }
-  .component-edit-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     right: 0;
-    width: @editWidth;
-    background-color: #fff;
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    .component-list-container {
+      width: @listWidth;
+      background-color: #fff;
+      box-sizing: border-box;
+      border-right: solid 1px @ibc;
+      padding: 30px;
+      .component-list-item {
+        position: relative;
+        padding: 40px 16px 20px 16px;
+        margin-bottom: 20px;
+        border: solid 2px @primary;
+        text-align: center;
+        user-select: none;
+        // &.moveDom {
+        //   opacity: 0.8;
+        // }
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;          
+        }
+        &:hover {
+          cursor: move;
+        }
+        .name {
+          position: absolute;
+          top: 0;
+          left: 0;
+          color: black;
+        }
+        // .preview {
+        //   // position: absolute;
+        //   // left: 50%;
+        //   // top: 50%;
+        //   // transform: translate(-50%, -50%);
+        // }
+      }
+    }
+
+    .workbanch-container {
+      flex: 1;
+      background-color: #fff;
+      border-right: solid 1px @ibc;
+      overflow: auto;
+      .component-item {
+        user-select: none;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          // cursor: move;
+        }
+      }
+    }
+    .component-edit-container {
+      width: @editWidth;
+      background-color: #fff;
+    }
+    
   }
+  
 }
+
+
