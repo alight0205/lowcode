@@ -1,11 +1,11 @@
 
-import { useRef } from 'react'
+import React,{ useImperativeHandle, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addElement, setActiveItem } from '../../../../store/slices/workbanchList'
 import { ComponentMenuState, WorkbanchListState, CompItem_Menu } from '../../../../utils/interface'
 import { componentMap } from '../../../../utils/componentMap'
 
-const Menu = () => {
+const Menu = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) => {
   const dispatch = useDispatch()
   const menuContainer = useRef<HTMLDivElement | null>(null)
   const componentMenu: any = useSelector<ComponentMenuState>(state => state.componentMenu.data)
@@ -30,7 +30,7 @@ const Menu = () => {
   const mousedown = (e: React.MouseEvent<HTMLDivElement>, item: CompItem_Menu) => {
     //- 创建一个dom元素模拟拖拽效果
     moveDom = (e.target as HTMLElement).cloneNode(true);
-    moveDom.classList.add('moveDom')
+    // moveDom.classList.add('moveDom')
     moveDom.style.position = 'absolute';
     moveDom.style.top = e.currentTarget.offsetTop - 10 + 'px'
     moveDom.style.left = e.currentTarget.offsetLeft + 'px'
@@ -47,7 +47,7 @@ const Menu = () => {
       mouseX: e.clientX,
       mouseY: e.clientY
     }
-  }
+    }
   const mousemove = (e: MouseEvent, item: CompItem_Menu) => {
     console.log(menuContainer.current?.clientWidth)
     //- 获取鼠标按下时的位置信息
@@ -85,11 +85,28 @@ const Menu = () => {
     dispatch(addElement(addItem))
   }
 
+  /*  容器的Ref */
+  let containerRef = useRef( null as null | {} as HTMLDivElement);
+  // 组件拖拽逻辑，处理组件从左侧拖到右侧
+  const menuDraggier = (() => {
+    // 拖动组件的ref
+    const dragData = useRef({
+      dragComponent: null as null | CompItem_Menu
+    })
+    // ref
+
+  })();
+
   return (
     <div ref={menuContainer} className="component-list-container">
       {
         componentMenu.map((item: CompItem_Menu, index: number) => (
-          <div className='component-list-item' key={index} onMouseDown={(e) => mousedown(e, item)}>
+          <div key={index}
+               className='component-list-item'  
+               draggable
+               onMouseDown={(e) => console.log(ref)
+               }
+          >
             <div className="name">{item.name}</div>
             <div className="preview">{componentMap[item.type](item.args)}</div>
           </div>
@@ -97,6 +114,7 @@ const Menu = () => {
       }
     </div >
   );
-};
+}
+);
 
 export default Menu;
