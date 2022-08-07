@@ -23,7 +23,8 @@ Q3. 拖动效果不是很好
 
 # daily log
 - 实现了左侧组件栏拖动到右侧，draggable拖拽实现
-
+- 实现了工作区移动，选中组件可以在右侧显示
+- 优化了拖动效果
 
 # record
 ## 添加 CompItem_Workbanch 属性
