@@ -39,6 +39,7 @@ export const WorkbanchItem: React.FC<{
           args: {
             value: props.item.args.value,
             adjustPosition: false,
+            focus: props.item.args.focus,
             style: {
               ...props.item.args.style,
               position: 'absolute',
@@ -54,9 +55,20 @@ export const WorkbanchItem: React.FC<{
     }
   },[])
 
+  // 'workbanch-container-item'
+  const classes = useMemo(() => {
+    let str = 'workbanch-container-item';
+    if(props.item.args.focus) {
+      str = `${str} workbanch-container-item-focus`;
+    }else {
+      str = 'workbanch-container-item';
+    }
+    return str;
+  },[props.item.args.focus])
+
   return (
     <>
-      <div className='workbanch-container-item' 
+      <div className= {classes}
          style={styles}
          ref={elRef}
          onMouseDown={props.onMousedown}
