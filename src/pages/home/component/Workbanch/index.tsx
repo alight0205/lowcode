@@ -5,7 +5,7 @@ import { setElement, setActiveItem, delElement } from '../../../../store/slices/
 import { componentMap } from '../../../../utils/componentMap'
 import { WorkbanchItem } from './WorkbanchItem'
 
-const Workbanch = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) => {
+const Workbanch = React.forwardRef((props:any,ref?:React.Ref<HTMLDivElement>) => {
   const dispatch = useDispatch()
 
   const workbanchContainer = useRef<HTMLDivElement | null>(null)
@@ -71,11 +71,14 @@ const Workbanch = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) =
   }
   /******************************************* */
   /*  new code */
-  const elRef = useRef({} as HTMLDivElement);
+  
 
   /*  code end*/
   return (
-    <div className='workbanch-container' ref = {ref}>
+    <div className='workbanch-container' 
+         ref = {ref}
+         onMouseDown = {props.focusHandler.container}
+    >
       {/* <button onClick={delBtn}>测试删除</button> */}
       <div>{JSON.stringify(workbanchList)}</div>
       {
@@ -85,6 +88,7 @@ const Workbanch = React.forwardRef((props?:any,ref?:React.Ref<HTMLDivElement>) =
           return (
             <WorkbanchItem key={item.id}
                            item={item}
+                           onMousedown = { e => {props.focusHandler.block(e,item)}}
             />
           )
         })

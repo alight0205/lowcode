@@ -9,6 +9,9 @@
 @itc: #314659;             // 字体色
 @icc: rgba(0,0,0,0.45);    // 图标颜色
 @boxShadowColor: #f0f1f2;  // 阴影颜色
+// 选中的组件的边框
+@itemFocusLength: 4px;
+
 .home-container {
   background-color: #eee;
   // height: 100vh;
@@ -87,6 +90,20 @@
           left: 0;
           right: 0;
           bottom: 0;
+        }
+        &.workbanch-container-item-focus {
+          &::after {
+            content: '';
+            position: absolute;
+            top: -@itemFocusLength;
+            left: -@itemFocusLength;
+            right: -@itemFocusLength;
+            bottom: -@itemFocusLength;
+            border: dashed 1px @primary;
+          } 
+        }
+        &:hover {
+          cursor: move;
         }
       }
     }

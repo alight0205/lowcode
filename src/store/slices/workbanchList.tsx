@@ -11,8 +11,8 @@ export const workbanchListSlice = createSlice({
             //     args: {
             //         value: '按钮',
             //         style: {
-            //             left: '100px',
-            //             top: '100px'
+            //             left: 100,
+            //             top: 100
             //         }
             //     },
             // }
@@ -23,8 +23,8 @@ export const workbanchListSlice = createSlice({
         //     element:{
         //         type: 'button',
         //         args: {
-        //             left:'100px',
-        //             top:'100px'
+        //             left:100,
+        //             top:100
         //         }
         //     }
         // }
@@ -54,7 +54,6 @@ export const workbanchListSlice = createSlice({
                 args,
                 style
             })
-
         },
         setActiveItem: (state: any, { payload: { id, type, args, style } }: any) => {
             state.activeItem = {
@@ -63,9 +62,25 @@ export const workbanchListSlice = createSlice({
                 args,
                 style
             }
+        },
+        // 组件是否被选中
+        setFocusItem:(state:any,{ payload: {id,focus}}:any) => {
+            const elementIndex = state.data.findIndex((item: any) => item.id === id)
+            if (elementIndex == -1) return;
+            state.data[elementIndex].args.focus = focus;
+            // console.log(state.data[elementIndex].args.focus,focus);
+            // console.log(state.data);
+            
+        },
+        // 修改被选中组件的位置
+        setPlaceItem:(state:any,{ payload: {id,left,top}}:any) => {
+            const elementIndex = state.data.findIndex((item: any) => item.id === id)
+            if (elementIndex == -1) return;
+            [state.data[elementIndex].args.style.left,state.data[elementIndex].args.style.top] = [left,top]
         }
     },
 });
 
-export const { addElement, delElement, setElement, setActiveItem } = workbanchListSlice.actions;
+export const { addElement, delElement, setElement, 
+               setActiveItem,setFocusItem, setPlaceItem} = workbanchListSlice.actions;
 export default workbanchListSlice.reducer;
