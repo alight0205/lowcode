@@ -45,6 +45,7 @@
         border: solid 2px @primary;
         text-align: center;
         user-select: none;
+        transition: box-shadow 1 ;
         // &.moveDom {
         //   opacity: 0.8;
         // }
@@ -58,6 +59,9 @@
         }
         &:hover {
           cursor: move;
+          box-shadow: 0 20px 15px -10px rgb(0 0 0 / 20%), 
+                      0 50px 35px -40px rgb(0 0 0 / 40%), 
+                      0 50px 35px -40px rgb(243 2 2/ 20%);
         }
         .name {
           position: absolute;
@@ -65,12 +69,6 @@
           left: 0;
           color: black;
         }
-        // .preview {
-        //   // position: absolute;
-        //   // left: 50%;
-        //   // top: 50%;
-        //   // transform: translate(-50%, -50%);
-        // }
       }
     }
 
