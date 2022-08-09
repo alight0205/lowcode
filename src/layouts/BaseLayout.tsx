@@ -10,6 +10,7 @@ const BaseLayout = () => {
       <div className="home-head">
         路过的导航栏
       </div>
+      <Outlet/>
     </div>
   );
 };
