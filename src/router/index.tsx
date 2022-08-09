@@ -2,6 +2,8 @@ import { ReactElement, Suspense } from "react";
 import Home from "../pages/home/index";
 import Login from "../pages/login/index";
 import BaseLayout from "../layouts/BaseLayout";
+import Preview from "../pages/preview";
+import { Navigate } from "react-router";
 
 //- 懒加载优化
 const lazyLoad = (children: ReactElement) => {
@@ -15,12 +17,25 @@ export const routes = [
         children: [
             {
                 index: true,
-                element: lazyLoad(<Home />),
-            }
+                element: <Navigate to="/home" />,
+            },
+            {
+                path: "*",
+                element: <Navigate to="/home" />,
+            },
+            {
+                path: "/home",
+                element: <Home />
+            },
+            // 其他内部页面
         ],
     },
     {
         path: "/login",
         element: lazyLoad(<Login />),
     },
+    {
+        path: "/preview",
+        element: lazyLoad(<Preview />)
+    }
 ];

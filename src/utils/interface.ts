@@ -4,7 +4,7 @@
 export interface CompItem_Menu {
     type: string,
     name: string,
-    args: any,
+    args: any
 }
 //- 组件列表数据仓库
 export interface ComponentMenuState{
@@ -20,10 +20,15 @@ export interface CompItem_Workbanch{
     type: string,
     args:any,
 }
+//- 工作区_活动组件
+export interface CompItem_Active{
+    id:number,
+    element:CompItem_Workbanch
+}
 //- 工作区数据仓库
 export interface WorkbanchListState{
     workbanchList:{
         data:CompItem_Workbanch[],
-        activeItem:CompItem_Workbanch
+        activeItem:CompItem_Active
     }
 }

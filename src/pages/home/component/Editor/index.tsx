@@ -9,9 +9,7 @@ type State = {
   }
 }
 const ComponentEdit = () => {
-  
-  const EditInfo = useSelector<State>(state => (state.workbanchList.data.filter((item)=> item.args.focus)));
-  
+  const EditInfo = useSelector<State>(state => state.workbanchList.activeItem);
   return <div className="component-edit-container">
     {JSON.stringify(EditInfo)}
   </div>;

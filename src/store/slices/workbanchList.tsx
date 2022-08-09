@@ -11,8 +11,8 @@ export const workbanchListSlice = createSlice({
             //     args: {
             //         value: '按钮',
             //         style: {
-            //             left: 100,
-            //             top: 100
+            //             left: '100px',
+            //             top: '100px'
             //         }
             //     },
             // }
@@ -23,14 +23,17 @@ export const workbanchListSlice = createSlice({
         //     element:{
         //         type: 'button',
         //         args: {
-        //             left:100,
-        //             top:100
+        //             left:'100px',
+        //             top:'100px'
         //         }
         //     }
         // }
         length: 0
     },
     reducers: {
+        setAllElement: (state: any, { payload }: any) => {
+            state.data = payload
+        },
         addElement: (state: any, { payload: { type, args, style } }: any) => {
             state.data.push({
                 id: state.length,
@@ -45,6 +48,14 @@ export const workbanchListSlice = createSlice({
             if (elementIndex == -1) return;
             state.data.splice(elementIndex, 1)
         },
+        delElements: (state: any, { payload }: any) => {
+            console.log(payload)
+            payload.forEach((delItem: { id: number; }) => {
+                const elementIndex = state.data.findIndex((item: any) => item.id === delItem.id)
+                if (elementIndex == -1) return;
+                state.data.splice(elementIndex, 1)
+            });
+        },
         setElement: (state: any, { payload: { id, element: { type, args, style } } }: any) => {
             const elementIndex = state.data.findIndex((item: any) => item.id === id)
             if (elementIndex == -1) return;
@@ -54,33 +65,13 @@ export const workbanchListSlice = createSlice({
                 args,
                 style
             })
+
         },
-        setActiveItem: (state: any, { payload: { id, type, args, style } }: any) => {
-            state.activeItem = {
-                id,
-                type,
-                args,
-                style
-            }
-        },
-        // 组件是否被选中
-        setFocusItem:(state:any,{ payload: {id,focus}}:any) => {
-            const elementIndex = state.data.findIndex((item: any) => item.id === id)
-            if (elementIndex == -1) return;
-            state.data[elementIndex].args.focus = focus;
-            // console.log(state.data[elementIndex].args.focus,focus);
-            // console.log(state.data);
-            
-        },
-        // 修改被选中组件的位置
-        setPlaceItem:(state:any,{ payload: {id,left,top}}:any) => {
-            const elementIndex = state.data.findIndex((item: any) => item.id === id)
-            if (elementIndex == -1) return;
-            [state.data[elementIndex].args.style.left,state.data[elementIndex].args.style.top] = [left,top]
+        setActiveItem: (state: any, { payload }: any) => {
+            state.activeItem = payload
         }
     },
 });
 
-export const { addElement, delElement, setElement, 
-               setActiveItem,setFocusItem, setPlaceItem} = workbanchListSlice.actions;
+export const { addElement, delElement, setElement, setActiveItem, setAllElement, delElements } = workbanchListSlice.actions;
 export default workbanchListSlice.reducer;

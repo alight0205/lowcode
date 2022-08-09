@@ -1,23 +1,16 @@
 import React from "react";
-import { HomeBody } from "./component/Body";
+import ComponentEdit from "./component/Editor";
+import ComponentList from "./component/Menu";
+import Workbanch from "./component/Workbanch";
 import "./index.less";
 const Home = () => {
-
-
-	return (
-		<div className="home-container">
-				{/* 首部 */}
-				<div className="home-head">
-					路过的导航栏
-				</div>
-				{/* body */}
-				<HomeBody />
-				{/* footer */}
-				<div className="home-footer">
-
-				</div>
-		</div>
-	);
+    return (
+        <div className="home-container">
+            <ComponentList />
+            <Workbanch />
+            <ComponentEdit />
+        </div>
+    );
 };
 
 export default Home;
