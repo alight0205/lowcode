@@ -6,16 +6,7 @@ const Home = () => {
 
 	return (
 		<div className="home-container">
-				{/* 首部 */}
-				<div className="home-head">
-					路过的导航栏
-				</div>
-				{/* body */}
-				<HomeBody />
-				{/* footer */}
-				<div className="home-footer">
-
-				</div>
+			<HomeBody />
 		</div>
 	);
 };
