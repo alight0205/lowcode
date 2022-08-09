@@ -2,10 +2,17 @@
 import './App.less'
 import { routes } from "./router";
 import { useRoutes } from "react-router-dom";
+import BaseLayout from './layouts/BaseLayout';
 function App() {
 
   const element = useRoutes(routes);
-  return element;
+  return (
+    <div className="app">
+      <BaseLayout />
+      {element}
+    </div>
+    
+  );
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
   // const userInfo= useMemo(()=>{

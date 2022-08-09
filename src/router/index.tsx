@@ -11,13 +11,14 @@ const lazyLoad = (children: ReactElement) => {
 export const routes = [
     {
         path: "/",
-        element: <BaseLayout />,
-        children: [
-            {
-                index: true,
-                element: lazyLoad(<Home />),
-            }
-        ],
+        element: lazyLoad(<Home />),
+        // element: <BaseLayout />,
+        // children: [
+        //     {
+        //         index: true,
+        //         element: lazyLoad(<Home />),
+        //     }
+        // ],
     },
     {
         path: "/login",
