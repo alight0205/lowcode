@@ -6,13 +6,7 @@ import BaseLayout from './layouts/BaseLayout';
 function App() {
 
   const element = useRoutes(routes);
-  return (
-    <div className="app">
-      <BaseLayout />
-      {element}
-    </div>
-    
-  );
+  return element ;
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
   // const userInfo= useMemo(()=>{
