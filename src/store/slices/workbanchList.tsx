@@ -67,7 +67,8 @@ export const workbanchListSlice = createSlice({
         changeElement: (state: any, { payload:  { id, element: { type, args, style } }}: any) => {
             const elementIndex = state.data.findIndex((item: any) => item.id === id)
             if (elementIndex == -1) return;
-            state.data.splice(elementIndex, 1, {
+            state.data.splice(elementIndex, 1,
+            {
                 id,
                 type,
                 args,

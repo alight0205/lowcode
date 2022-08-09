@@ -15,9 +15,9 @@ const ComponentEdit: React.FC = () => {
   const dispatch = useDispatch()
   const EditInfo: any = useSelector<State>(state => state.workbanchList.activeItem);
   const changValue = (e:any) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     setWidth(e.target.value)
-    console.log(width)
+    // console.log(width)
     e.target.value=''
   }
   const onSubmit = () => {
