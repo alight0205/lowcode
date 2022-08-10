@@ -29,6 +29,24 @@ export const componentMenuSlice = createSlice({
             width: '200px'
           }
         }
+      },
+      {
+        type: 'div',
+        name: 'div容器',
+        args: {
+          value: '',
+          style: {
+            height: '300px',
+            width: '300px',
+            backgroundColor: 'orange',
+            border: `2px solid #333`
+          },
+          preview: {
+            height: '30px',
+            width: 'auto',
+            border: `2px solid #333`
+          }
+        }
       }
     ],
   },

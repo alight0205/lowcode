@@ -64,6 +64,7 @@ export const HomeBody = () => {
       dragleave: useCallbackRef((e:DragEvent) => {e.dataTransfer!.dropEffect = 'none'}),
       drop: useCallbackRef((e:DragEvent) => {    
         const item = dragData.current.dragComponent;
+        
         if(item) {
           const addItem = {
             type: item.type,
@@ -72,7 +73,7 @@ export const HomeBody = () => {
               adjustPosition: true,
               focus: false,
               style: {
-                ...item.args.style,
+                ...item.args.style,  
                 position: 'absolute',
                 left: e.offsetX,
                 top: e.offsetY,

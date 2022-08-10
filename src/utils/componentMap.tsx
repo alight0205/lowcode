@@ -26,4 +26,14 @@ export const componentMap: any = {
       checked={props.checked}
     />
   ),
+  // div的value可以是别的组件,该如何实现?
+  div: (props:any) => (
+    <div key={props.key}
+         style={props.preview}
+         onMouseDown={props.onmousedown}
+         onClick={props.onclick}
+    >
+    {props.value}
+    </div>
+  )
 };
