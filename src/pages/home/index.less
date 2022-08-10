@@ -1,22 +1,7 @@
-@listWidth: 300px;
-@editWidth: 300px;
-@headHeight: 44px;
-@borderWidth: 2px;  // 边框宽度
-// 颜色
-@primary: rgb(48, 115, 240);
-@ibc: #dcdfe6;             // 边框色
-@ibl: #ebeef5;             // 边框色(轻)
-@itc: #314659;             // 字体色
-@icc: rgba(0,0,0,0.45);    // 图标颜色
-@boxShadowColor: #f0f1f2;  // 阴影颜色
-// 选中的组件的边框
-@itemFocusLength: 4px;
+@import '../../common/css-var/index.less';
 
 .home-container {
   background-color: #eee;
-  // height: 100vh;
-  display: flex;
-  flex-direction: column;
   .home-head {
     height: @headHeight;
     background-color: #fff;
@@ -34,6 +19,7 @@
     flex-direction: row;
     .component-list-container {
       width: @listWidth;
+      height: 100%;
       background-color: #fff;
       box-sizing: border-box;
       border-right: solid 1px @ibc;
@@ -45,6 +31,7 @@
         border: solid 2px @primary;
         text-align: center;
         user-select: none;
+        transition: box-shadow 1 ;
         // &.moveDom {
         //   opacity: 0.8;
         // }
@@ -58,6 +45,9 @@
         }
         &:hover {
           cursor: move;
+          box-shadow: 0 20px 15px -10px rgb(0 0 0 / 20%), 
+                      0 50px 35px -40px rgb(0 0 0 / 40%), 
+                      0 50px 35px -40px rgb(243 2 2/ 20%);
         }
         .name {
           position: absolute;
@@ -65,12 +55,6 @@
           left: 0;
           color: black;
         }
-        // .preview {
-        //   // position: absolute;
-        //   // left: 50%;
-        //   // top: 50%;
-        //   // transform: translate(-50%, -50%);
-        // }
       }
     }
 

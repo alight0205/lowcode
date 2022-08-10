@@ -3,19 +3,20 @@ import { componentMap } from "../../../../utils/componentMap";
 import { ComponentMenuState, WorkbanchListState, CompItem_Menu,CompItem_Workbanch } from '../../../../utils/interface'
 import { useSelector, useDispatch } from 'react-redux';
 import ComponentEdit from "../Editor";
+import ComponentMenu from "../Menu";
 import Workbanch from "../Workbanch";
 import { useMemo, useRef } from "react";
 import { useCallbackRef } from "../../../../components/hook/useCallbackRef";
 import { addElement,setFocusItem,setPlaceItem } from "../../../../store/slices/workbanchList";
 export const HomeBody = () => {  
 
-  const dispatch = useDispatch()
-  const menuContainer = useRef<HTMLDivElement | null>(null)
-  const componentMenu: any = useSelector<ComponentMenuState>(state => state.componentMenu.data);
+  const dispatch = useDispatch();
   
   //- redux中，工作区需要渲染的组件列表
   const workbanchList: any = useSelector<WorkbanchListState>(state => state.workbanchList.data);
-  
+  /*  容器的Ref */
+  let containerRef = useRef( null as null | {} as HTMLDivElement);
+
   /*  选择的一些方法 */
   const methods = {
     // 更新
@@ -30,8 +31,6 @@ export const HomeBody = () => {
     }
   }
 
-  /*  容器的Ref */
-  let containerRef = useRef( null as null | {} as HTMLDivElement);
   // 组件拖拽逻辑，处理组件从左侧拖到右侧
   const menuDraggier = (() => {
     // 拖动组件的ref
@@ -153,67 +152,53 @@ export const HomeBody = () => {
     }
   })();
 
-    // block的拖拽
-    const blockDraggier = (() => {
-      const dragData = useRef({
-        startX: 0,                // 拖拽开始时,鼠标的left
-        startY: 0,                // 拖拽开始时，鼠标的top值
-        startPosArray:[] as {     // 所有选择的block元素的值
-          top: number,
-          left: number
-        }[],
-  
+  // block的拖拽
+  const blockDraggier = (() => {
+    const dragData = useRef({
+      startX: 0,                // 拖拽开始时,鼠标的left
+      startY: 0,                // 拖拽开始时，鼠标的top值
+      startPosArray:[] as {     // 所有选择的block元素的值
+        top: number,
+        left: number
+      }[],
+
+    })
+    
+    const mousedown = useCallbackRef((e:React.MouseEvent<HTMLDivElement>) => {
+      document.addEventListener('mousemove',mousemove);
+      document.addEventListener('mouseup',mouseup);
+      dragData.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        startPosArray: focusData.focus.map((item) => ({top:item.args.style.top,left:item.args.style.left}))
+      }
+      // console.log(dragData.current.startPosArray);
+    })
+    const mousemove = useCallbackRef((e:MouseEvent) => {
+      const {startX,startY,startPosArray} = dragData.current;
+      const {clientX:movex,clientY:movey} = e;
+      const durX = movex - startX;
+      const durY = movey - startY;
+    
+      focusData.focus.forEach((block,index) => {
+        const {left,top} = startPosArray[index];
+        dispatch(setPlaceItem({id:block.id,left: (left + durX),top:(top + durY)}));
       })
       
-      const mousedown = useCallbackRef((e:React.MouseEvent<HTMLDivElement>) => {
-        document.addEventListener('mousemove',mousemove);
-        document.addEventListener('mouseup',mouseup);
-        dragData.current = {
-          startX: e.clientX,
-          startY: e.clientY,
-          startPosArray: focusData.focus.map((item) => ({top:item.args.style.top,left:item.args.style.left}))
-        }
-        // console.log(dragData.current.startPosArray);
-      })
-      const mousemove = useCallbackRef((e:MouseEvent) => {
-        const {startX,startY,startPosArray} = dragData.current;
-        const {clientX:movex,clientY:movey} = e;
-        const durX = movex - startX;
-        const durY = movey - startY;
-      
-        focusData.focus.forEach((block,index) => {
-          const {left,top} = startPosArray[index];
-          dispatch(setPlaceItem({id:block.id,left: (left + durX),top:(top + durY)}));
-        })
-        
-        // methods.updateBlocks(props.value.blocks);
-      })
-      const mouseup = useCallbackRef((e:MouseEvent) => {
-        document.removeEventListener('mousemove',mousemove);
-        document.removeEventListener('mouseup',mouseup);
-      })
-  
-      return {mousedown};
-    })();
+      // methods.updateBlocks(props.value.blocks);
+    })
+    const mouseup = useCallbackRef((e:MouseEvent) => {
+      document.removeEventListener('mousemove',mousemove);
+      document.removeEventListener('mouseup',mouseup);
+    })
+
+    return {mousedown};
+  })();
 
   return (
     <div className="home-body">
       {/* 组件列表 */}
-      <div ref={menuContainer} className="component-list-container">
-      {
-        componentMenu.map((item: CompItem_Menu, index: number) => (
-          <div key={index}
-               className='component-list-item'  
-               draggable
-               onDragStart={e=>menuDraggier.block.dragstart(e,item)}
-               onDragEnd={menuDraggier.block.dragend}
-          >
-            <div className="name">{item.name}</div>
-            <div className="preview">{componentMap[item.type](item.args)}</div>
-          </div>
-        ))
-      }
-      </div >
+      <ComponentMenu menuDraggier={menuDraggier}/>
 
       {/* 画布 */}
       <Workbanch ref={containerRef}
