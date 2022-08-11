@@ -13,10 +13,10 @@
     width: @listWidth;
     height: 100%;
     background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     .component-list-item {
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
       position: relative;
       margin-top: 10px;
       width: 80%;
@@ -27,6 +27,7 @@
       border: 1px solid @primary;
       background-color: #fff;
       z-index: 10;
+      user-select: none;
       &:hover {
         box-shadow: 0 0 10px 0px black;
       }
@@ -40,7 +41,6 @@
         right: 0;
         bottom: 0;
         left: 0;
-        cursor: move;
       }
       .name {
         position: absolute;
@@ -68,32 +68,50 @@
     background-color: #fff;
     border: 1px solid;
     .component-item {
+      user-select: none;
+      overflow: hidden;
+      padding: 5px;
       &::after {
         content: "";
         position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        left: 2px;
         cursor: move;
+      }
+      &.focus::after {
+        border: 1px dashed red;
       }
     }
     .workbanch-utils-container {
       position: fixed;
       padding: 0 10px;
       z-index: 100;
-      bottom: 0;
-      height: 30px;
-      background-color: gray;
-      border: 1px solid;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+      .utils-item {
+        margin: 3px;
+      }
     }
   }
   .component-edit-container {
     position: absolute;
-    top: 0;
-    bottom: 0;
     right: 0;
+    overflow: scroll;
+    height: 100vh;
     width: @editWidth;
     background-color: #fff;
+    .edit-utils,
+    .setstyle-list,
+    .setstyle-text {
+      padding: 10px;
+    }
+    .setstyle-text {
+      margin-bottom: 20px;
+    }
   }
 }
