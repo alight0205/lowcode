@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import ComponentEdit from "./component/Editor";
-import ComponentList from "./component/Menu";
-import Workbanch from "./component/Workbanch";
+import ComponentMenu from "./component/Menu";
+import Workbench from "./component/Workbench";
 import "./index.less";
 const Home = () => {
     return (
         <div className="home-container">
-            <ComponentList />
-            <Workbanch />
+            <ComponentMenu />
+            <Workbench />
             <ComponentEdit />
         </div>
     );

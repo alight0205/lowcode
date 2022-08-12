@@ -1,10 +1,8 @@
-@listWidth: 300px;
-@editWidth: 300px;
-@primary: rgb(48, 115, 240);
+@import "../../common/common.less";
 .home-container {
   position: relative;
   background-color: #eee;
-  height: 100vh;
+  height: 100%;
   .component-list-container {
     position: absolute;
     top: 0;
@@ -13,6 +11,7 @@
     width: @listWidth;
     height: 100%;
     background-color: #fff;
+    z-index: 1;
     .component-list-item {
       margin-top: 10px;
       margin-left: auto;
@@ -25,14 +24,15 @@
       font-size: 16px;
       text-align: center;
       border: 1px solid @primary;
+      border-radius: @ibr;
       background-color: #fff;
       z-index: 10;
       user-select: none;
+      transition: transform 0.1s, box-shadow 0.1s;
       &:hover {
-        box-shadow: 0 0 10px 0px black;
-      }
-      &.moveDom {
-        opacity: 0.8;
+        transform: scale(1.02);
+        cursor: move;
+        box-shadow: 0 0 15px 0px #999;
       }
       &::after {
         content: "";
@@ -48,7 +48,7 @@
         height: 30px;
         line-height: 30px;
         font-size: 14px;
-        color: white;
+        color: #fff;
         background-color: @primary;
       }
       .preview {
@@ -59,14 +59,15 @@
       }
     }
   }
-  .workbanch-container {
+  .workbench-container {
     position: absolute;
     top: 0;
     bottom: 0px;
     left: @listWidth;
     right: @editWidth;
     background-color: #fff;
-    border: 1px solid;
+    margin: @workbenchMargin;
+    margin-bottom: 0;
     .component-item {
       user-select: none;
       overflow: hidden;
@@ -81,18 +82,20 @@
         cursor: move;
       }
       &.focus::after {
-        border: 1px dashed red;
+        border: 1px dashed @primary;
       }
     }
-    .workbanch-utils-container {
+    .workbench-utils-container {
       position: fixed;
       padding: 0 10px;
-      z-index: 100;
-      top: 22px;
+      z-index: 10;
+      top: @headHeight;
       left: 50%;
       transform: translateX(-50%);
       padding: 4px;
+      background-color: #fff;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+      border-radius: @ibr;
       .utils-item {
         margin: 3px;
       }
@@ -102,16 +105,13 @@
     position: absolute;
     right: 0;
     overflow: scroll;
-    height: 100vh;
+    height: 100%;
     width: @editWidth;
     background-color: #fff;
     .edit-utils,
     .setstyle-list,
     .setstyle-text {
       padding: 10px;
-    }
-    .setstyle-text {
-      margin-bottom: 20px;
     }
   }
 }

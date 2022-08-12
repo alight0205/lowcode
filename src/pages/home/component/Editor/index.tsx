@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { WorkbanchListState } from '../../../../utils/interface'
+import { WorkbenchListState } from '../../../../utils/interface'
 import {
   Button,
   Form,
@@ -8,14 +8,14 @@ import {
   InputNumber,
   Select,
 } from 'antd';
-import { setElement } from '../../../../store/slices/workbanchList'
+import { setElement } from '../../../../store/slices/workbenchList'
 const ComponentEdit: React.FC = () => {
 
   const { TextArea } = Input;
   const { Option } = Select;
 
   const dispatch = useDispatch()
-  const EditInfo: any = useSelector<WorkbanchListState>(state => state.workbanchList.activeItem);
+  const EditInfo: any = useSelector<WorkbenchListState>(state => state.workbenchList.activeItem);
 
   const [styleTextValue, setStyleTextValue] = useState("")
   useEffect(() => {
@@ -55,8 +55,7 @@ const ComponentEdit: React.FC = () => {
     </Form.Item>);
   const reset = () => {
     if (!EditInfo) return;
-    const obj =
-    {
+    const obj = {
       position: EditInfo.args.style.position,
       left: parseFloat(EditInfo.args.style.left),
       top: parseFloat(EditInfo.args.style.top),
@@ -83,75 +82,81 @@ const ComponentEdit: React.FC = () => {
         }
       }))
   }
-  return <div className="component-edit-container">
-    <div className="setstyle-list">
-      <h2>自定义样式</h2>
-      <Form
-        name="style-list"
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 18 }}
-        form={form}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          label="position"
-          name="position"
-          initialValue="absolute"
-        >
-          <Select>
-            <Option value="absolute">absolute</Option>
-            <Option value="relative">relative</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="left"
-          name="left"
-        >
-          <InputNumber placeholder="默认" addonAfter={suffixSelector('leftSuffix')} style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item
-          label="top"
-          name="top"
-        >
-          <InputNumber placeholder="默认" addonAfter={suffixSelector('topSuffix')} style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item
-          label="width"
-          name="width"
-        >
-          <InputNumber placeholder="默认" addonAfter={suffixSelector('widthSuffix')} style={{ width: '100%' }} />
-        </Form.Item>
+  return (
+    <div className="component-edit-container">
+      <div hidden={EditInfo}>
+        <h2>暂无选中元素</h2>
+      </div>
+      <div hidden={!EditInfo}>
+        <div className="setstyle-list">
+          <h2>自定义样式</h2>
+          <Form
+            name="style-list"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            form={form}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label="position"
+              name="position"
+              initialValue="absolute"
+            >
+              <Select>
+                <Option value="absolute">absolute</Option>
+                <Option value="relative">relative</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="left"
+              name="left"
+            >
+              <InputNumber placeholder="默认" addonAfter={suffixSelector('leftSuffix')} />
+            </Form.Item>
+            <Form.Item
+              label="top"
+              name="top"
+            >
+              <InputNumber placeholder="默认" addonAfter={suffixSelector('topSuffix')} />
+            </Form.Item>
+            <Form.Item
+              label="width"
+              name="width"
+            >
+              <InputNumber placeholder="默认" addonAfter={suffixSelector('widthSuffix')} />
+            </Form.Item>
 
-        <Form.Item
-          label="height"
-          name="height"
-        >
-          <InputNumber placeholder="默认" addonAfter={suffixSelector('heightSuffix')} style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
-          <Button type="primary" htmlType="submit">
-            修改
-          </Button>
-          <Button type="default" onClick={reset} style={{ margin: '10px 30px' }}>
-            重置
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
-    <div className="setstyle-text">
-      <h2>代码块样式</h2>
-      <TextArea
-        autoSize
-        placeholder="style对象代码"
-        value={styleTextValue}
-        style={{ minHeight: '100px' }}
-        onChange={e => {
-          let val = e.target.value;
-          setStyleTextValue(val)
-        }}
-      />
-      <Button onClick={setStyleText} style={{ marginTop: '4px' }}>提交</Button>
-    </div>
-  </div>;
+            <Form.Item
+              label="height"
+              name="height"
+            >
+              <InputNumber placeholder="默认" addonAfter={suffixSelector('heightSuffix')} />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
+              <Button type="primary" htmlType="submit">
+                修改
+              </Button>
+              <Button type="default" onClick={reset} style={{ margin: '10px 30px' }}>
+                重置
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+        <div className="setstyle-text">
+          <h2>代码块样式</h2>
+          <TextArea
+            autoSize
+            placeholder="style对象代码"
+            value={styleTextValue}
+            style={{ minHeight: '100px' }}
+            onChange={e => {
+              let val = e.target.value;
+              setStyleTextValue(val)
+            }}
+          />
+          <Button onClick={setStyleText} style={{ marginTop: '4px' }}>提交</Button>
+        </div>
+      </div>
+    </div>);
 };
 export default ComponentEdit;

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CompItem_Workbanch } from "../../utils/interface";
+import { CompItem_Workbench } from "../../utils/interface";
 
-export const workbanchListSlice = createSlice({
-    name: "workbanchList",
+export const workbenchListSlice = createSlice({
+    name: "workbenchList",
     initialState: {
         data: [
             // {
@@ -30,7 +30,6 @@ export const workbanchListSlice = createSlice({
         //         }
         //     }
         // }
-        length: 0,
         dropStatus: false,//可放置状态
         selectList: [
             // {
@@ -43,32 +42,32 @@ export const workbanchListSlice = createSlice({
         setDropStatus: (state: any, { payload }: { payload: boolean }) => {
             state.dropStatus = payload
         },
-        setAllElement: (state: any, { payload }: { payload: CompItem_Workbanch[] }) => {
+        setAllElement: (state: any, { payload }: { payload: CompItem_Workbench[] }) => {
             state.data = payload
         },
-        addElement: (state: any, { payload: { type, focus, args } }: { payload: { type: string, focus: boolean, args: object } }) => {
+        addElement: (state: any, { payload: { id, type, focus, args } }: { payload: { id: string, type: string, focus: boolean, args: object } }) => {
             state.data.push({
-                id: state.length,
+                id,
                 type,
                 focus,
                 args
             });
             state.length += 1;
         },
-        delElement: (state: any, { payload: { id } }: { payload: { id: number } }) => {
-            const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === id)
+        delElement: (state: any, { payload: { id } }: { payload: { id: string } }) => {
+            const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === id)
             if (elementIndex == -1) return;
             state.data.splice(elementIndex, 1)
         },
         delElements: (state: any) => {
-            state.selectList.forEach((delItem: CompItem_Workbanch) => {
-                const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === delItem.id)
+            state.selectList.forEach((delItem: CompItem_Workbench) => {
+                const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === delItem.id)
                 if (elementIndex == -1) return;
                 state.data.splice(elementIndex, 1)
             });
         },
-        setElement: (state: any, { payload }: { payload: CompItem_Workbanch }) => {
-            const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === payload.id)
+        setElement: (state: any, { payload }: { payload: CompItem_Workbench }) => {
+            const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === payload.id)
             if (elementIndex == -1) return;
             state.data[elementIndex] = payload;
             if (state.activeItem?.id === payload.id) return;
@@ -79,42 +78,38 @@ export const workbanchListSlice = createSlice({
             state.data[elementIndex].args.style.left = left;
             state.data[elementIndex].args.style.top = top;
         },
-        setActiveItem: (state: any, { payload }: { payload: { id: number } | null }) => {
+        setActiveItem: (state: any, { payload }: { payload: { id: string } | null }) => {
             if (!payload) {
                 state.activeItem = null
             } else {
-                const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === payload.id)
+                const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === payload.id)
                 state.activeItem = state.data[elementIndex]
             }
         },
-        setFocusItem: (state: any, { payload: { id, focus } }: any) => {
-            const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === id)
-            state.data[elementIndex].focus = focus;
-        },
-        addSelectItem: (state: any, { payload }: { payload: CompItem_Workbanch }) => {
-            const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === payload.id)
+        addSelectItem: (state: any, { payload }: { payload: CompItem_Workbench }) => {
+            const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === payload.id)
             state.data[elementIndex].focus = true;
             state.selectList.push(payload)
         },
-        updateSelectItem: (state: any) => {
-            state.selectList.forEach((selecctItem: CompItem_Workbanch) => {
-                const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === selecctItem.id)
-                selecctItem.args.style = state.data[elementIndex].args.style
-            })
-        },
-        removeSelectItem: (state: any, { payload }: { payload: { id: number } }) => {
-            const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === payload.id)
+        removeSelectItem: (state: any, { payload }: { payload: { id: string } }) => {
+            const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === payload.id)
             state.data[elementIndex].focus = false;
-            const selectIndex = state.selectList.findIndex((item: CompItem_Workbanch) => item.id === payload.id)
+            const selectIndex = state.selectList.findIndex((item: CompItem_Workbench) => item.id === payload.id)
             state.selectList.splice(selectIndex, 1)
         },
-        closeAllFocus: (state: any) => {
-            state.selectList.forEach((delItem: CompItem_Workbanch) => {
-                const elementIndex = state.data.findIndex((item: CompItem_Workbanch) => item.id === delItem.id)
+        delAllSelect: (state: any) => {
+            state.selectList.forEach((delItem: CompItem_Workbench) => {
+                const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === delItem.id)
                 if (elementIndex == -1) return;
                 state.data[elementIndex].focus = false;
             });
             state.selectList = []
+        },
+        updateAllSelect: (state: any) => {
+            state.selectList.forEach((selecctItem: CompItem_Workbench) => {
+                const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === selecctItem.id)
+                selecctItem.args.style = state.data[elementIndex].args.style
+            })
         },
 
     },
@@ -129,9 +124,8 @@ export const {
     setAllElement,
     delElements,
     setDropStatus,
-    setFocusItem,
     addSelectItem,
     removeSelectItem,
-    updateSelectItem,
-    closeAllFocus, } = workbanchListSlice.actions;
-export default workbanchListSlice.reducer;
+    updateAllSelect,
+    delAllSelect, } = workbenchListSlice.actions;
+export default workbenchListSlice.reducer;

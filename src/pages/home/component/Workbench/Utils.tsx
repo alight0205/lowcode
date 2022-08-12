@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { setElement, setActiveItem, delElement, delElements, setAllElement } from '../../../../store/slices/workbanchList'
-import { CompItem_Workbanch, WorkbanchListState } from '../../../../utils/interface'
+import { setElement, setActiveItem, delElement, delElements, setAllElement, delAllSelect } from '../../../../store/slices/workbenchList'
+import { CompItem_Workbench, WorkbenchListState } from '../../../../utils/interface'
 import { Button, Modal } from 'antd';
 import {
     DeleteOutlined,
@@ -17,7 +17,7 @@ const Utils = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     //- redux中，工作区需要渲染的组件列表
-    const workbanchList: any = useSelector<WorkbanchListState>(state => state.workbanchList.data)
+    const workbenchList: any = useSelector<WorkbenchListState>(state => state.workbenchList.data)
     // 是否查看json数据
     const [showJSONStatus, setShowJSONStatus] = useState(false)
     // 导入JSON数据Modal
@@ -26,12 +26,13 @@ const Utils = () => {
     const delEles = () => {
         dispatch(delElements())
         dispatch(setActiveItem(null))
+        dispatch(delAllSelect())
     }
     // 导出exportJSON
     const exportJSON = () => {
         const filename = 'dataJSON.json'
         // 导出数据
-        const blob = new Blob([workbanchList], { type: 'text/json' }),
+        const blob = new Blob([workbenchList], { type: 'text/json' }),
             e = new MouseEvent('click'),
             a = document.createElement('a');
 
@@ -61,7 +62,7 @@ const Utils = () => {
                 destroyOnClose={true}
                 centered={true}
                 footer={null}>
-                {JSON.stringify(workbanchList)}
+                {JSON.stringify(workbenchList)}
             </Modal>
             <Modal
                 title="导入JSON数据"
@@ -77,7 +78,7 @@ const Utils = () => {
                 centered={true}>
                 <input type="file" accept=".json" id="file" />
             </Modal>
-            <div className="workbanch-utils-container">
+            <div className="workbench-utils-container">
                 <Button
                     className='utils-item'
                     type="primary"
