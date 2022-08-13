@@ -41,6 +41,7 @@ export const workbenchListSlice = createSlice({
     reducers: {
         setDropStatus: (state: any, { payload }: { payload: boolean }) => {
             state.dropStatus = payload
+            console.log(payload)
         },
         setAllElement: (state: any, { payload }: { payload: CompItem_Workbench[] }) => {
             state.data = payload
@@ -52,7 +53,6 @@ export const workbenchListSlice = createSlice({
                 focus,
                 args
             });
-            state.length += 1;
         },
         delElement: (state: any, { payload: { id } }: { payload: { id: string } }) => {
             const elementIndex = state.data.findIndex((item: CompItem_Workbench) => item.id === id)

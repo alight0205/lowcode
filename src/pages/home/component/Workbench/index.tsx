@@ -29,42 +29,32 @@ const Workbench = () => {
   }
   // 放置元素
   const drop = (e: any) => {
-    // 放置的元素时menuItem
-    if (menuActiveItem) {
-      // 得到元素的位置
-      const [left, top] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY]
-      // 往工作区添加组件
-      let addItem = {
-        id: uuid(),
-        type: menuActiveItem.type,
-        focus: false,
-        args: {
-          value: menuActiveItem.args.value,
-          style: {
-            ...menuActiveItem.args.style,
-            position: 'absolute',
-            left: left + 'px',
-            top: top + 'px'
-          }
+    // 只处理menuItem的放置事件
+    if (!menuActiveItem) return;
+    // 得到元素的位置
+    const [left, top] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY]
+    // 往工作区添加组件
+    let addItem = {
+      id: uuid(),
+      type: menuActiveItem.type,
+      focus: false,
+      args: {
+        value: menuActiveItem.args.value,
+        style: {
+          ...menuActiveItem.args.style,
+          position: 'absolute',
+          left: left + 'px',
+          top: top + 'px'
         }
       }
-      dispatch(addElement(addItem))
-    } else {
-      // 放置的元素是WorkbenchItem
-      dispatch(updateAllSelect()); //更新select列表的位置信息
-      if (selectList.length === 1) {
-        dispatch(setActiveItem({ id: selectList[0].id }))
-      } else {
-        dispatch(setActiveItem(null))
-      }
     }
+    dispatch(addElement(addItem))
   }
   return (
     <div
       className='workbench-container'
-      onDragEnter={() => { dispatch(setDropStatus(true)); console.log(dropStatus) }}
-      onDragLeave={() => { dispatch(setDropStatus(false)); console.log(dropStatus) }}
-      onDragOver={(e) => { e.preventDefault(); }}
+      onDragLeave={() => { dispatch(setDropStatus(false)); }}
+      onDragOver={(e) => { e.preventDefault(); !dropStatus && dispatch(setDropStatus(true)); }}
       onDrop={drop}
       onMouseDown={containerMouseDown}
     >

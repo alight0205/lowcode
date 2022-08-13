@@ -27,7 +27,6 @@ export interface WorkbenchListState{
     workbenchList:{
         data:CompItem_Workbench[],
         activeItem:CompItem_Workbench|null,
-        length: number,
         dropStatus: boolean,
         selectList:{id:number}[]
     }

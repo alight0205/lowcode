@@ -3,10 +3,12 @@
   height: 100vh;
   overflow: hidden;
   header {
+    position: relative;
     height: @headHeight;
     background-color: #fff;
     border: solid @borderWidth @ibc;
     text-align: center;
+    z-index: 10;
   }
   main {
     height: calc(100vh - @headHeight);

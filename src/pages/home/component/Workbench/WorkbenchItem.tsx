@@ -9,6 +9,8 @@ import {
     setElementPos,
     removeSelectItem,
     setActiveItem,
+    updateAllSelect,
+    setDropStatus
 } from '../../../../store/slices/workbenchList'
 
 interface IProps {
@@ -19,6 +21,7 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
     const dispatch = useDispatch()
     //- 选中列表
     const selectList: any = useSelector<WorkbenchListState>(state => state.workbenchList.selectList)
+    const dropStatus: any = useSelector<WorkbenchListState>(state => state.workbenchList.dropStatus)
     //- 记录鼠标按下后的位置信息
     const dragInfo = useRef({
         mouseX: 0,      //- 拖拽开始，鼠标的left
@@ -49,11 +52,15 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
             }
         }
     }
-
+    const dragstart = () => {
+        dispatch(setDropStatus(true))
+    }
     const drag = (e: any) => {
+        if (!dropStatus) return;
         const { mouseX, mouseY } = dragInfo.current;
         const disX = e.clientX - mouseX;
         const disY = e.clientY - mouseY;
+        // console.log(disX)
         selectList.forEach((selectItem: CompItem_Workbench) => {
             dispatch(setElementPos({
                 id: selectItem.id,
@@ -63,10 +70,14 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
         })
     }
 
-    const up = () => {
+    const dragend = () => {
+        dispatch(updateAllSelect()); //更新select列表的位置信息
         if (selectList.length === 1) {
             dispatch(setActiveItem({ id: selectList[0].id }))
+        } else {
+            dispatch(setActiveItem(null))
         }
+        dispatch(setDropStatus(false))
     }
     return (
         <div
@@ -77,8 +88,10 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
                 top: compInfo.args.style.top,
             }}
             onMouseDown={down}
+            onDragStart={dragstart}
             onDrag={drag}
-            onMouseUp={up}
+            onDragEnd={dragend}
+            onMouseUp={dragend}
             draggable
         >
             {

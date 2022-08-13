@@ -17,9 +17,9 @@ const ComponentEdit: React.FC = () => {
   const dispatch = useDispatch()
   const EditInfo: any = useSelector<WorkbenchListState>(state => state.workbenchList.activeItem);
 
+
   const [styleTextValue, setStyleTextValue] = useState("")
   useEffect(() => {
-    console.log('变化')
     setStyleTextValue(EditInfo && JSON.stringify(EditInfo.args.style, null, 2))
     reset()
   }, [EditInfo])
