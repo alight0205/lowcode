@@ -8,6 +8,7 @@ import {
     addSelectItem,
     setElementPos,
     removeSelectItem,
+    setActiveItem,
 } from '../../../../store/slices/workbenchList'
 
 interface IProps {
@@ -41,8 +42,10 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
             if (selectList.length === 0 || !e.shiftKey) {
                 dispatch(delAllSelect());
                 dispatch(addSelectItem(compInfo));
+                dispatch(setActiveItem(compInfo))
             } else {
                 dispatch(addSelectItem(compInfo))
+                dispatch(setActiveItem(null))
             }
         }
     }
@@ -60,6 +63,11 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
         })
     }
 
+    const up = () => {
+        if (selectList.length === 1) {
+            dispatch(setActiveItem({ id: selectList[0].id }))
+        }
+    }
     return (
         <div
             className={classnames('component-item', { focus: compInfo.focus })}
@@ -70,6 +78,7 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
             }}
             onMouseDown={down}
             onDrag={drag}
+            onMouseUp={up}
             draggable
         >
             {

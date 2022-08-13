@@ -8,7 +8,7 @@ import {
   InputNumber,
   Select,
 } from 'antd';
-import { setElement } from '../../../../store/slices/workbenchList'
+import { setActiveItem, setElement } from '../../../../store/slices/workbenchList'
 const ComponentEdit: React.FC = () => {
 
   const { TextArea } = Input;
@@ -19,6 +19,7 @@ const ComponentEdit: React.FC = () => {
 
   const [styleTextValue, setStyleTextValue] = useState("")
   useEffect(() => {
+    console.log('变化')
     setStyleTextValue(EditInfo && JSON.stringify(EditInfo.args.style, null, 2))
     reset()
   }, [EditInfo])
@@ -45,6 +46,7 @@ const ComponentEdit: React.FC = () => {
           }
         }
       }))
+    dispatch(setActiveItem({ id: EditInfo.id }))
   };
   const suffixSelector = (name: string) => (
     <Form.Item name={name} noStyle initialValue="px">
@@ -81,6 +83,7 @@ const ComponentEdit: React.FC = () => {
           }
         }
       }))
+    dispatch(setActiveItem({ id: EditInfo.id }))
   }
   return (
     <div className="component-edit-container">
@@ -105,6 +108,9 @@ const ComponentEdit: React.FC = () => {
               <Select>
                 <Option value="absolute">absolute</Option>
                 <Option value="relative">relative</Option>
+                <Option value="static">static</Option>
+                <Option value="fixed">fixed</Option>
+                <Option value="sticky">sticky</Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -154,7 +160,7 @@ const ComponentEdit: React.FC = () => {
               setStyleTextValue(val)
             }}
           />
-          <Button onClick={setStyleText} style={{ marginTop: '4px' }}>提交</Button>
+          <Button type="primary" onClick={setStyleText} style={{ marginTop: '4px' }}>提交</Button>
         </div>
       </div>
     </div>);
