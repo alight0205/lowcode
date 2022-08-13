@@ -60,7 +60,6 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
         const { mouseX, mouseY } = dragInfo.current;
         const disX = e.clientX - mouseX;
         const disY = e.clientY - mouseY;
-        // console.log(disX)
         selectList.forEach((selectItem: CompItem_Workbench) => {
             dispatch(setElementPos({
                 id: selectItem.id,

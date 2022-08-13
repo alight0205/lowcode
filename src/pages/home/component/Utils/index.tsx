@@ -78,62 +78,78 @@ const Utils = () => {
                 centered={true}>
                 <input type="file" accept=".json" id="file" />
             </Modal>
-            <div className="workbench-utils-container">
-                <Button
-                    className='utils-item'
-                    type="primary"
-                    onClick={delEles}
-                    title="删除当前组件">
-                    <DeleteOutlined />
-                </Button>
-                {/* <button onClick={delEles}>批量删除</button> */}
-                <Button
-                    className='utils-item'
-                    type="primary"
-                    onClick={() => {
-                        setImportJSONStatus(true)
-                    }}
-                    title="导入页面">
-                    <CloudUploadOutlined />
-                </Button>
-                <Button
-                    className='utils-item'
-                    type="primary"
-                    onClick={exportJSON}
-                    title="导出页面">
-                    <CloudDownloadOutlined />
-                </Button>
+            <div className="utils-container">
+                <div>
 
+                    <Button
+                        className='utils-item'
+                        type="primary"
+                        onClick={delEles}
+                        title="删除当前组件">
+                        <DeleteOutlined />
+                    </Button>
+                    {/* <button onClick={delEles}>批量删除</button> */}
+                    <Button
+                        className='utils-item'
+                        type="primary"
+                        onClick={() => {
+                            setImportJSONStatus(true)
+                        }}
+                        title="导入页面">
+                        <CloudUploadOutlined />
+                    </Button>
+                    <Button
+                        className='utils-item'
+                        type="primary"
+                        onClick={exportJSON}
+                        title="导出页面">
+                        <CloudDownloadOutlined />
+                    </Button>
+                    <Button
+                        title="预览页面"
+                        className='utils-item'
+                        type='primary'
+                        onClick={() => {
+                            navigate('/preview')
+                        }}>
+                        <EyeOutlined />
+                    </Button>
+                    <Button
+                        title="查看JSON数据"
+                        className='utils-item'
+                        type='primary'
+                        onClick={() => {
+                            setShowJSONStatus(true)
+                        }}>
+                        <FileSearchOutlined />
+                    </Button>
 
-                <Button
-                    title="预览页面"
-                    className='utils-item'
-                    type='primary'
-                    onClick={() => {
-                        navigate('/preview')
-                    }}>
-                    <EyeOutlined />
-                </Button>
-                <Button
-                    title="查看JSON数据"
-                    className='utils-item'
-                    type='primary'
-                    onClick={() => {
-                        setShowJSONStatus(true)
-                    }}>
-                    <FileSearchOutlined />
-                </Button>
+                    <Button
+                        title="清空页面"
+                        className='utils-item'
+                        type='primary'
+                        onClick={() => {
+                            dispatch(setAllElement([]))
+                            dispatch(setActiveItem(null))
+                        }}>
+                        <FormatPainterOutlined />
+                    </Button>
+                </div>
+                <div>
+                    <Button
+                        title="新页面"
+                        className='utils-item'
+                        type='primary'>
+                        新页面
+                    </Button>
 
-                <Button
-                    title="清空页面"
-                    className='utils-item'
-                    type='primary'
-                    onClick={() => {
-                        dispatch(setAllElement([]))
-                        dispatch(setActiveItem(null))
-                    }}>
-                    <FormatPainterOutlined />
-                </Button>
+                    <Button
+                        title="生成链接地址"
+                        className='utils-item'
+                        type='primary'>
+                        生成链接地址
+                    </Button>
+                </div>
             </div>
         </>
     )

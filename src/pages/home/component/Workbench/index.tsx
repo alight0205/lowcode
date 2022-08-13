@@ -7,9 +7,9 @@ import {
   addElement,
   updateAllSelect,
 } from '../../../../store/slices/workbenchList'
-import Utils from './Utils'
 import WorkbenchItem from './WorkbenchItem'
 import { v4 as uuid } from 'uuid';
+import { componentMap } from '../../../../utils/componentMap'
 
 const Workbench = () => {
   const dispatch = useDispatch()
@@ -17,8 +17,6 @@ const Workbench = () => {
   const workbenchList: any = useSelector<WorkbenchListState>(state => state.workbenchList.data)
   const menuActiveItem: any = useSelector<ComponentMenuState>(state => state.componentMenu.activeItem)
   const dropStatus: any = useSelector<WorkbenchListState>(state => state.workbenchList.dropStatus)
-  //- 选中列表
-  const selectList: any = useSelector<WorkbenchListState>(state => state.workbenchList.selectList)
 
   // 容器点击事件
   const containerMouseDown = (e: any) => {
@@ -58,12 +56,22 @@ const Workbench = () => {
       onDrop={drop}
       onMouseDown={containerMouseDown}
     >
-      {/* 工具栏 */}
-      <Utils />
       {/* 渲染工作台 */}
-      {workbenchList.map((item: CompItem_Workbench) => (
-        <WorkbenchItem key={item.id} compInfo={item} />
-      ))}
+      {workbenchList.map((item: CompItem_Workbench) => {
+        if (item.args.style.position === 'static') {
+          return componentMap[item.type]({
+            ...item.args,
+            style: {
+              ...item.args.style,
+              position: 'relative',
+              left: 0,
+              top: 0
+            },
+          })
+        } else {
+          return <WorkbenchItem key={item.id} compInfo={item} />
+        }
+      })}
     </div >
   )
 }
