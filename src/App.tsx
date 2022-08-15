@@ -1,5 +1,4 @@
 
-import './App.less'
 import { routes } from "./router";
 import { useRoutes } from "react-router-dom";
 import BaseLayout from './layouts/BaseLayout';

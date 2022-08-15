@@ -3,10 +3,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const commonSlice = createSlice({
   name: "common",
   initialState: {
-    position: {
-      x: 0,
-      y: 0,
-    },
   },
   reducers: {
   },

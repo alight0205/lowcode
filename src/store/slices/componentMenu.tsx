@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CompItem_Menu } from "../../utils/interface";
 
 export const componentMenuSlice = createSlice({
   name: "componentMenu",
@@ -29,11 +30,27 @@ export const componentMenuSlice = createSlice({
             width: '200px'
           }
         }
+      },
+      {
+        type: 'divWrap',
+        name: 'div容器',
+        args: {
+          value: '容器',
+          style: {
+            width: '200px',
+            height: '100px',
+          }
+        }
       }
     ],
+    activeItem: null
   },
   reducers: {
+    setActiveItem: (state: any, { payload }: any) => {
+      state.activeItem = payload
+    },
   },
 });
 
+export const { setActiveItem, } = componentMenuSlice.actions;
 export default componentMenuSlice.reducer;
