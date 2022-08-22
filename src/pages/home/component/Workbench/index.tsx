@@ -1,4 +1,6 @@
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+
 import { CompItem_Workbench, WorkbenchListState, ComponentMenuState } from '../../../../utils/interface'
 import {
   setActiveItem,
@@ -11,7 +13,7 @@ import WorkbenchItem from './WorkbenchItem'
 import { v4 as uuid } from 'uuid';
 import { componentMap } from '../../../../utils/componentMap'
 
-const Workbench = () => {
+const Workbench = React.forwardRef((props:any,ref?:React.Ref<HTMLDivElement>) => {
   const dispatch = useDispatch()
   //- redux中，工作区需要渲染的组件列表
   const workbenchList: any = useSelector<WorkbenchListState>(state => state.workbenchList.data)
@@ -51,10 +53,8 @@ const Workbench = () => {
   return (
     <div
       className='workbench-container'
-      onDragLeave={() => { dispatch(setDropStatus(false)); }}
-      onDragOver={(e) => { e.preventDefault(); !dropStatus && dispatch(setDropStatus(true)); }}
-      onDrop={drop}
-      onMouseDown={containerMouseDown}
+      ref = {ref}
+      onMouseDown={props.focusHandler.container}
     >
       {/* 渲染工作台 */}
       {workbenchList.map((item: CompItem_Workbench) => {
@@ -69,11 +69,15 @@ const Workbench = () => {
             },
           })
         } else {
-          return <WorkbenchItem key={item.id} compInfo={item} />
+          return <WorkbenchItem key={item.id} 
+                                compInfo={item} 
+                                onMousedown = { e => {props.focusHandler.block(e,item)}}
+                 />
         }
       })}
     </div >
   )
 }
+)
 
 export default Workbench

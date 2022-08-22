@@ -1,109 +1,107 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CompItem_Workbench, WorkbenchListState } from '../../../../utils/interface'
 import { componentMap } from '../../../../utils/componentMap'
 import classnames from 'classnames'
-import {
-    delAllSelect,
-    addSelectItem,
-    setElementPos,
-    removeSelectItem,
-    setActiveItem,
-    updateAllSelect,
-    setDropStatus
-} from '../../../../store/slices/workbenchList'
+import { useUpdate } from '../../../../compontents/hook/useUpdate'
+import { setElement } from '../../../../store/slices/workbenchList'
 
 interface IProps {
-    compInfo: CompItem_Workbench
+    compInfo: CompItem_Workbench,
+    onMousedown?: (e:React.MouseEvent<HTMLDivElement>) => void
 }
 
-const WorkbenchItem: React.FC<IProps> = ({ compInfo }) => {
-    const dispatch = useDispatch()
-    //- 选中列表
-    const selectList: any = useSelector<WorkbenchListState>(state => state.workbenchList.selectList)
-    const dropStatus: any = useSelector<WorkbenchListState>(state => state.workbenchList.dropStatus)
-    //- 记录鼠标按下后的位置信息
-    const dragInfo = useRef({
-        mouseX: 0,      //- 拖拽开始，鼠标的left
-        mouseY: 0       //- 拖拽开始，鼠标的top
-    })
+const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
+    /* hook定义 */
+    const dispatch = useDispatch();
 
-    const down = (e: any) => {
-        dragInfo.current = {
-            mouseX: e.clientX,
-            mouseY: e.clientY
-        }
-        //- 如果当前元素已选中，且按了shift，则取消选中
-        if (compInfo.focus) {
-            if (e.shiftKey) {
-                dispatch(removeSelectItem(compInfo));
-            }
-        } else {
-            //- 如果当前元素未选中，且已选中为0：只选中该项
-            //- 如果当前元素未选中，且没按shift键：只选中该项
-            //- 如果当前元素未选中，且不存在以上情况，则添加选中
-            if (selectList.length === 0 || !e.shiftKey) {
-                dispatch(delAllSelect());
-                dispatch(addSelectItem(compInfo));
-                dispatch(setActiveItem(compInfo))
-            } else {
-                dispatch(addSelectItem(compInfo))
-                dispatch(setActiveItem(null))
-            }
-        }
-    }
-    const dragstart = () => {
-        dispatch(setDropStatus(true))
-    }
-    const drag = (e: any) => {
-        if (!dropStatus) return;
-        const { mouseX, mouseY } = dragInfo.current;
-        const disX = e.clientX - mouseX;
-        const disY = e.clientY - mouseY;
-        selectList.forEach((selectItem: CompItem_Workbench) => {
-            dispatch(setElementPos({
-                id: selectItem.id,
-                left: parseFloat(selectItem.args.style.left) + disX + 'px',
-                top: parseFloat(selectItem.args.style.top) + disY + 'px'
-            }))
-        })
-    }
+    /* ref定义 */
+    const elRef = useRef({} as HTMLDivElement);
 
-    const dragend = () => {
-        dispatch(updateAllSelect()); //更新select列表的位置信息
-        if (selectList.length === 1) {
-            dispatch(setActiveItem({ id: selectList[0].id }))
-        } else {
-            dispatch(setActiveItem(null))
+    /* 自定义函数 */
+    const {forceUpdate} = useUpdate();
+
+    /* 组件样式 */
+    // 组件包裹样式
+    const styles = useMemo(() => {
+        return {
+            top: `${compInfo.args.style.top}px`,
+            left: `${compInfo.args.style.left}px`,
+            opacity: compInfo.args.adjustPosition? '0': '',
         }
-        dispatch(setDropStatus(false))
-    }
-    return (
-        <div
-            className={classnames('component-item', { focus: compInfo.focus })}
-            style={{
-                position: compInfo.args.style.position,
-                left: compInfo.args.style.left,
-                top: compInfo.args.style.top,
-            }}
-            onMouseDown={down}
-            onDragStart={dragstart}
-            onDrag={drag}
-            onDragEnd={dragend}
-            onMouseUp={dragend}
-            draggable
-        >
-            {
-                componentMap[compInfo.type]({
-                    ...compInfo.args,
+    },[compInfo.args.style])
+
+    // 组件元素样式
+    const blockStyles = useMemo(() => {
+        return {
+            ...compInfo.args.style,
+        }
+    },[compInfo.args.style])
+
+    // 放置时调整
+    useEffect(() => {
+        if(compInfo.args.adjustPosition) {            
+            const {top,left} = compInfo.args.style;
+            const {height, width} = elRef.current.getBoundingClientRect();
+            // props.item.adjustPosition = false;
+            const y = Math.round(top-height/2);
+            const x = Math.round(left-width/2) ;
+            console.log(x,y);
+            
+            // 更新redux里的数值
+            const addItem:CompItem_Workbench = {
+                id: compInfo.id,
+                type: compInfo.type,
+                focus: compInfo.focus,
+                args: {
+                    value: compInfo.args.value,
+                    adjustPosition: false,
+                    focus: compInfo.args.focus,
                     style: {
-                        ...compInfo.args.style,
+                    ...compInfo.args.style,
+                    position: 'absolute',
+                    left: x,
+                    top: y,
+                    }
+                },
+            }
+            dispatch(setElement(addItem));
+            forceUpdate();
+        }
+    },[])
+
+
+    // 'component-item' 设置样式
+    const classes = useMemo(() => {
+        let str = 'component-item';
+        if(compInfo.focus) {
+        str = `${str} focus`;
+        }else {
+        str = 'component-item';
+        }
+        return str;
+    },[compInfo.focus])
+
+    return (
+        <>
+            <div className= {classes}
+                 style={styles}
+                 ref={elRef}
+                 onMouseDown={onMousedown}
+            >
+            {   componentMap[compInfo.type]({
+                    value: compInfo.args.value,
+                    key: compInfo.id,
+                    style: {
+                        ...blockStyles,
                         position: 'relative',
                         left: 0,
                         top: 0
                     },
                 })
-            }</div>
+            }
+            </div>
+        </>
     )
 }
 
