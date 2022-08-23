@@ -17,39 +17,7 @@ const Workbench = React.forwardRef((props:any,ref?:React.Ref<HTMLDivElement>) =>
   const dispatch = useDispatch()
   //- redux中，工作区需要渲染的组件列表
   const workbenchList: any = useSelector<WorkbenchListState>(state => state.workbenchList.data)
-  const menuActiveItem: any = useSelector<ComponentMenuState>(state => state.componentMenu.activeItem)
-  const dropStatus: any = useSelector<WorkbenchListState>(state => state.workbenchList.dropStatus)
-
-  // 容器点击事件
-  const containerMouseDown = (e: any) => {
-    if (e.target.className === 'workbench-container') {
-      dispatch(delAllSelect())
-      dispatch(setActiveItem(null))
-    }
-  }
-  // 放置元素
-  const drop = (e: any) => {
-    // 只处理menuItem的放置事件
-    if (!menuActiveItem) return;
-    // 得到元素的位置
-    const [left, top] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY]
-    // 往工作区添加组件
-    let addItem = {
-      id: uuid(),
-      type: menuActiveItem.type,
-      focus: false,
-      args: {
-        value: menuActiveItem.args.value,
-        style: {
-          ...menuActiveItem.args.style,
-          position: 'absolute',
-          left: left + 'px',
-          top: top + 'px'
-        }
-      }
-    }
-    dispatch(addElement(addItem))
-  }
+  
   return (
     <div
       className='workbench-container'

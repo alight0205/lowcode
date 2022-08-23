@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { CompItem_Workbench, WorkbenchListState } from '../../../../utils/interface'
+import { useDispatch } from 'react-redux'
+import { CompItem_Workbench } from '../../../../utils/interface'
 import { componentMap } from '../../../../utils/componentMap'
-import classnames from 'classnames'
 import { useUpdate } from '../../../../compontents/hook/useUpdate'
 import { setElement } from '../../../../store/slices/workbenchList'
 
@@ -91,6 +90,7 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
             >
             {   componentMap[compInfo.type]({
                     value: compInfo.args.value,
+                    imgurl: compInfo.args.imgurl,
                     key: compInfo.id,
                     style: {
                         ...blockStyles,

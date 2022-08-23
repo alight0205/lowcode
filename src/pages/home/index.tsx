@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from 'uuid';
+import { message } from "antd";
 
 import "./index.less";
 import { CompItem_Menu, CompItem_Workbench, WorkbenchListState } from "../../utils/interface";
@@ -83,7 +84,9 @@ const Home = () => {
         dragover: useCallbackRef((e:DragEvent) => {e.preventDefault()}),
         dragleave: useCallbackRef((e:DragEvent) => {e.dataTransfer!.dropEffect = 'none'}),
         drop: useCallbackRef((e:DragEvent) => {    
+            message.success('添加成功');
             const item = dragData.current.dragComponent;
+            
             
             if(item) {
                 const addItem = {
@@ -125,6 +128,8 @@ const Home = () => {
             }else if(focusData.focus.length == 1) {
             // block.args.focus = true;
                 methods.chooseBlock(block);
+                // 选中的话就是自己，未选择则是另外一个组件
+                block.focus && methods.chooseActive(block) ;
             }else {
             // 选中 -> 未选中,未选中 -> 选中
                 block.focus ? methods.removeBlock(block) : methods.chooseBlock(block);
@@ -158,6 +163,7 @@ const Home = () => {
         // console.log('点击 container');
         // console.log(workbanchList);
         methods.clearBlocks();
+        methods.cancelActive();
         // console.log(workbanchList);
     }
     return {

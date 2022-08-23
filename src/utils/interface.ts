@@ -6,13 +6,27 @@ export interface CompItem_Menu {
     name: string,
     args: any
 }
+
+export interface slect {
+    style: string,
+    option: Array<string>
+}
+
+export interface Editor_Menu {
+    type: string,
+    slect: slect[]
+}
+
 //- 组件列表数据仓库
-export interface ComponentMenuState{
+export interface ComponentMenuState {
     componentMenu:{
         data:CompItem_Menu[],
-        activeItem:CompItem_Menu,
+        AntMap: CompItem_Menu[],
+        activeItem: CompItem_Menu,
+        editorMenu: Editor_Menu[]
     }
 }
+
 
 //- 工作区
 //- 工作区组件列表_组件项

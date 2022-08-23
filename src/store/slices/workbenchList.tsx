@@ -46,7 +46,7 @@ export const workbenchListSlice = createSlice({
         setAllElement: (state: any, { payload }: { payload: CompItem_Workbench[] }) => {
             state.data = payload
         },
-        addElement: (state: any, { payload: { id, type, focus, args } }: { payload: { id: string, type: string, focus: boolean, args: object } }) => {
+        addElement: (state: any, { payload: { id, type, focus, args } }: { payload: { id: string, type: string, focus: boolean, args: object } }) => {    
             state.data.push({
                 id,
                 type,

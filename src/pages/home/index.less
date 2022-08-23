@@ -10,6 +10,39 @@
     height: 100%;
     background-color: #fff;
     z-index: 1;
+    overflow-y: scroll;
+    
+    .component-list-tag {
+      .tag-name {
+        position: relative;
+        background-color: #ccf2a6;
+        border-top: 5px solid #fff;
+        height: 35px;
+        line-height: 30px;
+        border-radius: 5px;
+        margin: 0 5px;
+        cursor: pointer;
+        z-index: 3;
+        &:hover {
+          background-color: #b3ec79;
+        }
+        .name {
+          user-select: none;
+          padding-left: 20px;
+        }
+        .btn {
+          user-select: none;
+          position: absolute;
+          right: 20px;
+          transition: transform 0.5s;
+        }
+      }
+      .list-1 {
+        position: relative;
+        transition: transform 0.5s;
+      }
+    }
+
     .component-list-item {
       margin-top: 10px;
       margin-left: auto;

@@ -17,7 +17,6 @@ const ComponentEdit: React.FC = () => {
   const dispatch = useDispatch()
   const EditInfo: any = useSelector<WorkbenchListState>(state => state.workbenchList.activeItem);
 
-
   const [styleTextValue, setStyleTextValue] = useState("")
   useEffect(() => {
     setStyleTextValue(EditInfo && JSON.stringify(EditInfo.args.style, null, 2))
@@ -34,7 +33,7 @@ const ComponentEdit: React.FC = () => {
         focus: true,
         args:
         {
-          value: EditInfo.args.value,
+          value: values.text? values.text : EditInfo.args.value,
           style:
           {
             ...EditInfo.args.style,
@@ -43,16 +42,22 @@ const ComponentEdit: React.FC = () => {
             top: values.top ? values.top + values.topSuffix : EditInfo.args.style.top,
             width: values.width ? values.width + values.widthSuffix : EditInfo.args.style.width,
             height: values.height ? values.height + values.heightSuffix : EditInfo.args.style.height,
+            color: values.color,
+            backgroundColor: values.backgroundColor,
+            zIndex: values.zIndex,
           }
         }
       }))
     dispatch(setActiveItem({ id: EditInfo.id }))
   };
-  const suffixSelector = (name: string) => (
+  const suffixSelector = (name: string,opt:Array<string>=['px']) => (
     <Form.Item name={name} noStyle initialValue="px">
       <Select style={{ width: 65 }}>
-        <Option value="px">px</Option>
-        <Option value="em">em</Option>
+        {
+          opt.map((item) => (
+            <Option value={item}>{item}</Option>    
+          ))
+        }
       </Select>
     </Form.Item>);
   const reset = () => {
@@ -113,18 +118,21 @@ const ComponentEdit: React.FC = () => {
                 <Option value="sticky">sticky</Option>
               </Select>
             </Form.Item>
+
             <Form.Item
               label="left"
               name="left"
             >
               <InputNumber placeholder="默认" addonAfter={suffixSelector('leftSuffix')} />
             </Form.Item>
+
             <Form.Item
               label="top"
               name="top"
             >
               <InputNumber placeholder="默认" addonAfter={suffixSelector('topSuffix')} />
             </Form.Item>
+
             <Form.Item
               label="width"
               name="width"
@@ -138,6 +146,41 @@ const ComponentEdit: React.FC = () => {
             >
               <InputNumber placeholder="默认" addonAfter={suffixSelector('heightSuffix')} />
             </Form.Item>
+
+            {/* 文字 */}
+            <Form.Item
+              label="text"
+              name="text"
+            >
+              <Input placeholder="默认"/>
+            </Form.Item>
+            
+            {
+              EditInfo && EditInfo.type == 'img' && <Form.Item label="imgUrl" name="imgUrl"> <Input placeholder="默认"/> </Form.Item>
+            }
+
+            {/* 层级 */}
+            <Form.Item
+              label="z-index"
+              name="zIndex"
+            >
+              <InputNumber placeholder="默认" style={{ width: '100%' }}/>
+            </Form.Item>
+
+            {/* 字体颜色 */}
+            <Form.Item label='color'
+                       name='color'
+            >
+              <Input type="color" placeholder="默认"/>
+            </Form.Item>
+
+            {/* 背景颜色 */}
+            <Form.Item label='背景颜色'
+                       name='backgroundColor'
+            >
+              <Input type="color" placeholder="默认"/>
+            </Form.Item>
+
             <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
               <Button type="primary" htmlType="submit">
                 修改
