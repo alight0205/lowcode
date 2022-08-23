@@ -2,6 +2,7 @@ import { ReactElement, Suspense } from "react";
 import Home from "../pages/home/index";
 import Login from "../pages/login/index";
 import BaseLayout from "../layouts/BaseLayout";
+import Preview from "../pages/preview";
 import { Navigate } from "react-router";
 
 //- 懒加载优化
@@ -24,13 +25,18 @@ export const routes = [
                 element: <Navigate to="/home" />,
             },
             {
-                path: '/home',
-                element: lazyLoad(<Home />)
-            }
+                path: "/home",
+                element: <Home />
+            },
+            // 其他内部页面
         ],
     },
     {
         path: "/login",
         element: lazyLoad(<Login />),
     },
+    {
+        path: "/preview",
+        element: lazyLoad(<Preview />)
+    }
 ];

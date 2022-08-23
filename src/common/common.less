@@ -1,0 +1,47 @@
+@listWidth: 300px;
+@editWidth: 300px;
+@headHeight: 44px;
+@borderWidth: 2px; // 边框宽度
+// 颜色
+@primary: rgb(48, 115, 240);
+@ibc: #dcdfe6; // 边框色
+@ibcl: #ebeef5; // 边框色(轻)
+@itc: #314659; // 字体色
+@icc: rgba(0, 0, 0, 0.45); // 图标颜色
+@boxShadowColor: #f0f1f2; // 阴影颜色
+// 选中的组件的边框
+@itemFocusLength: 4px;
+//边框圆角
+@ibr: 4px;
+
+// 画布margin
+@workbenchMargin: 50px;
+
+/*---滚动条默认显示样式--*/
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  height: 50px;
+  outline-offset: -2px;
+  outline: 2px solid #fff;
+  -webkit-border-radius: 4px;
+  border: 2px solid #fff;
+}
+
+/*---鼠标点击滚动条显示样式--*/
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bebebe;
+  height: 50px;
+  -webkit-border-radius: 4px;
+}
+
+/*---滚动条大小--*/
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/*---滚动框背景样式--*/
+::-webkit-scrollbar-track-piece {
+  background-color: #fff;
+  -webkit-border-radius: 0;
+}

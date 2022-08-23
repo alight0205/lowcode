@@ -1,7 +1,15 @@
-@import '../common/css-var/index.less';
-.home-head {
-  height: @headHeight;
-  background-color: #fff;
-  border: solid @borderWidth @ibc;
-  text-align: center;
+@import "../common/common.less";
+.baselayout-container {
+  height: 100vh;
+  overflow: hidden;
+  header {
+    position: relative;
+    height: @headHeight;
+    background-color: #fff;
+    border: solid @borderWidth @ibc;
+    z-index: 10;
+  }
+  main {
+    height: calc(100vh - @headHeight);
+  }
 }

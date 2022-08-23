@@ -3,14 +3,14 @@ import { Link, Outlet } from "react-router-dom";
 import './BaseLayout.less'
 const BaseLayout = () => {
   return (
-    <div>
-      {/* <main>
+    <div className="baselayout-container">
+      <header>
+        这里是导航栏
         <Link to="/">首页</Link>
-      </main> */}
-      <div className="home-head">
-        路过的导航栏
-      </div>
-      <Outlet/>
+      </header>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 };

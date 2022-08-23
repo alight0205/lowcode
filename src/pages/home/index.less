@@ -1,103 +1,150 @@
-@import '../../common/css-var/index.less';
-
+@import "../../common/common.less";
 .home-container {
+  position: relative;
   background-color: #eee;
-  .home-head {
-    height: @headHeight;
-    background-color: #fff;
-    border: solid @borderWidth @ibc;
-    text-align: center;
-  }
+  height: 100%;
 
-  .home-body {
-    top: @headHeight;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    .component-list-container {
-      width: @listWidth;
-      height: 100%;
-      background-color: #fff;
-      box-sizing: border-box;
-      border-right: solid 1px @ibc;
-      padding: 30px;
-      .component-list-item {
+  display: flex;
+  .component-list-container {
+    width: @listWidth;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1;
+    overflow-y: scroll;
+    
+    .component-list-tag {
+      .tag-name {
         position: relative;
-        padding: 40px 16px 20px 16px;
-        margin-bottom: 20px;
-        border: solid 2px @primary;
-        text-align: center;
-        user-select: none;
-        transition: box-shadow 1 ;
-        // &.moveDom {
-        //   opacity: 0.8;
-        // }
-        &::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;          
-        }
+        background-color: #ccf2a6;
+        border-top: 5px solid #fff;
+        height: 35px;
+        line-height: 30px;
+        border-radius: 5px;
+        margin: 0 5px;
+        cursor: pointer;
+        z-index: 3;
         &:hover {
-          cursor: move;
-          box-shadow: 0 20px 15px -10px rgb(0 0 0 / 20%), 
-                      0 50px 35px -40px rgb(0 0 0 / 40%), 
-                      0 50px 35px -40px rgb(243 2 2/ 20%);
+          background-color: #b3ec79;
         }
         .name {
-          position: absolute;
-          top: 0;
-          left: 0;
-          color: black;
+          user-select: none;
+          padding-left: 20px;
         }
+        .btn {
+          user-select: none;
+          position: absolute;
+          right: 20px;
+          transition: transform 0.5s;
+        }
+      }
+      .list-1 {
+        position: relative;
+        transition: transform 0.5s;
       }
     }
 
-    .workbanch-container {
-      flex: 1;
-      background-color: #fff;
-      border-right: solid 1px @ibc;
-      overflow: auto;
+    .component-list-item {
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
       position: relative;
-      .workbanch-container-item {
+      margin-top: 10px;
+      width: 80%;
+      min-height: 100px;
+      line-height: 40px;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid @primary;
+      border-radius: @ibr;
+      background-color: #fff;
+      z-index: 10;
+      user-select: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+      &:hover {
+        transform: scale(1.02);
+        cursor: move;
+        box-shadow: 0 0 15px 0px #999;
+      }
+      &::after {
+        content: "";
         position: absolute;
-        user-select: none;
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
-        &.workbanch-container-item-focus {
-          &::after {
-            content: '';
-            position: absolute;
-            top: -@itemFocusLength;
-            left: -@itemFocusLength;
-            right: -@itemFocusLength;
-            bottom: -@itemFocusLength;
-            border: dashed 1px @primary;
-          } 
-        }
-        &:hover {
-          cursor: move;
-        }
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .name {
+        position: absolute;
+        width: 60px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        color: #fff;
+        background-color: @primary;
+      }
+      .preview {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
       }
     }
-    .component-edit-container {
-      width: @editWidth;
-      background-color: #fff;
-    }
-    
   }
-  
+  .center-container {
+    flex-grow: 1;
+  }
+
+  .utils-container {
+    position: relative;
+    padding: 0 10px;
+    z-index: 10;
+    padding: 4px;
+    background-color: #fff;
+    border: 10px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    .utils-item {
+      margin: 3px;
+    }
+  }
+  .workbench-container {
+    // transform: scale(0.9);
+    position: relative;
+    width: calc(100% - 20px);
+    height: 100%;
+    background-color: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    .component-item {
+      position: absolute;
+      user-select: none;
+      overflow: hidden;
+      padding: 5px;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        left: 2px;
+        cursor: move;
+      }
+      &.focus::after {
+        border: 1px dashed @primary;
+      }
+    }
+  }
+  .component-edit-container {
+    height: 100%;
+    width: @editWidth;
+    overflow: scroll;
+    background-color: #fff;
+    .edit-utils,
+    .setstyle-list,
+    .setstyle-text {
+      padding: 10px;
+    }
+  }
 }
-
-
