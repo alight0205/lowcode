@@ -60,7 +60,8 @@ export const componentMenuSlice = createSlice({
         type: 'carousel',
         name: '轮播图',
         args: {
-          value: ['img1','img2'],
+          value: '轮播图',
+          imgs: ['img1','img2'],
           style: {
             width: '200px',
             height: '100px',

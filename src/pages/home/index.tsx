@@ -56,7 +56,7 @@ const Home = () => {
     const menuDraggier = (() => {
         // 拖动组件的ref
         const dragData = useRef({
-        dragComponent: null as null | CompItem_Menu
+            dragComponent: null as null | CompItem_Menu
         })
         // ref
         // 拖动元素
@@ -86,15 +86,14 @@ const Home = () => {
         drop: useCallbackRef((e:DragEvent) => {    
             message.success('添加成功');
             const item = dragData.current.dragComponent;
-            
-            
             if(item) {
                 const addItem = {
                     id: uuid(),
                     focus: false,
                     type: item.type,
                     args: {
-                        value: item.args.value,
+                        // value: item.args.value,
+                        ...item.args,
                         adjustPosition: true,
                         style: {
                             ...item.args.style,  
@@ -185,8 +184,6 @@ const Home = () => {
         })
         
         const mousedown = useCallbackRef((e:React.MouseEvent<HTMLDivElement>) => {
-            console.log(233);
-            
             document.addEventListener('mousemove',mousemove);
             document.addEventListener('mouseup',mouseup);
             dragData.current = {
@@ -204,10 +201,7 @@ const Home = () => {
 
             focusData.focus.forEach((block,index) => {
                 const {left,top} = startPosArray[index];
-                console.log(sliceNotNumber(block.args.style.left));
-                
-                
-                dispatch(setElementPos({id:block.id,left: (left + durX),top:(top + durY)}));
+                dispatch(setElementPos({id:block.id,left: (left + durX)+'px',top:(top + durY)+'px'}));
             })
         
         // methods.updateBlocks(props.value.blocks);
