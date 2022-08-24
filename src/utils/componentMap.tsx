@@ -77,10 +77,11 @@ export const componentMap: any = {
               draggable={props.draggable}
           >
             {
-              props.value instanceof Array &&
-              props.value.map((_item: any) => (
+              props.imgs instanceof Array &&
+              props.imgs.map((_item: any) => (
                 <div>
-                  <h3 style={contentStyle}>{_item}</h3>
+                  <img style={{...props.style,position:'sticky'}} src={_item} alt="加载失败" />
+                  {/* <h3 style={props.style}>{_item}</h3> */}
                 </div>
               ))
             }
