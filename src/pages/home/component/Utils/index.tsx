@@ -12,6 +12,7 @@ import {
     FileSearchOutlined,
     FormatPainterOutlined
 } from '@ant-design/icons';
+import { uploadPage } from '../../../../service/api/page'
 
 const Utils = () => {
     const dispatch = useDispatch()
@@ -22,6 +23,11 @@ const Utils = () => {
     const [showJSONStatus, setShowJSONStatus] = useState(false)
     // 导入JSON数据Modal
     const [importJSONStatus, setImportJSONStatus] = useState(false)
+
+    // 生成页面连接地址
+    const [showUploadJSON, setShowUploadJSON] = useState(false)
+    const [uploadJSONId, setUploadJSONId] = useState('')
+
     // 删除组件
     const delEles = () => {
         dispatch(delElements())
@@ -55,6 +61,12 @@ const Utils = () => {
             dispatch(setAllElement(importData))
         }
     }
+    // 生成页面链接地址
+    const uploadJSON = async () => {
+        const data = await uploadPage(JSON.stringify(workbenchList))
+        setUploadJSONId(data.data.data._id)
+        setShowUploadJSON(true)
+    }
     return (
         <>
             {/* json Modal */}
@@ -63,6 +75,12 @@ const Utils = () => {
                 centered={true}
                 footer={null}>
                 {JSON.stringify(workbenchList)}
+            </Modal>
+            <Modal title="页面链接地址" visible={showUploadJSON} onCancel={() => setShowUploadJSON(false)}
+                destroyOnClose={true}
+                centered={true}
+                footer={null}>
+                {'http://127.0.0.1:5173/private/' + uploadJSONId}
             </Modal>
             <Modal
                 title="导入JSON数据"
@@ -136,17 +154,19 @@ const Utils = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button
+                    {/* <Button
                         title="新页面"
                         className='utils-item'
                         type='primary'>
                         新页面
-                    </Button>
+                    </Button> */}
 
                     <Button
                         title="生成链接地址"
                         className='utils-item'
-                        type='primary'>
+                        type='primary'
+                        onClick={uploadJSON}
+                    >
                         生成链接地址
                     </Button>
                 </div>

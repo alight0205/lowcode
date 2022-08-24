@@ -3,6 +3,7 @@ import Home from "../pages/home/index";
 import Login from "../pages/login/index";
 import BaseLayout from "../layouts/BaseLayout";
 import Preview from "../pages/preview";
+import Private from '../pages/private'
 import { Navigate } from "react-router";
 
 //- 懒加载优化
@@ -37,5 +38,9 @@ export const routes = [
     {
         path: "/preview",
         element: lazyLoad(<Preview />)
+    },
+    {
+        path: "/private/:id",
+        element: lazyLoad(<Private />)
     }
 ];
