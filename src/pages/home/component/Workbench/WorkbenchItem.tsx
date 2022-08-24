@@ -24,8 +24,8 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
     // 组件包裹样式
     const styles = useMemo(() => {
         return {
-            top: `${compInfo.args.style.top}px`,
-            left: `${compInfo.args.style.left}px`,
+            top: `${compInfo.args.style.top}`,
+            left: `${compInfo.args.style.left}`,
             opacity: compInfo.args.adjustPosition? '0': '',
         }
     },[compInfo.args.style])
@@ -45,7 +45,6 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
             // props.item.adjustPosition = false;
             const y = Math.round(top-height/2);
             const x = Math.round(left-width/2) ;
-            console.log(x,y);
             
             // 更新redux里的数值
             const addItem:CompItem_Workbench = {
@@ -53,14 +52,15 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
                 type: compInfo.type,
                 focus: compInfo.focus,
                 args: {
-                    value: compInfo.args.value,
+                    // value: compInfo.args.value,
+                    ...compInfo.args,
                     adjustPosition: false,
                     focus: compInfo.args.focus,
                     style: {
                     ...compInfo.args.style,
                     position: 'absolute',
-                    left: x,
-                    top: y,
+                    left: `${x}px`,
+                    top: `${y}px`,
                     }
                 },
             }
@@ -89,14 +89,15 @@ const WorkbenchItem: React.FC<IProps> = ({ compInfo,onMousedown }) => {
                  onMouseDown={onMousedown}
             >
             {   componentMap[compInfo.type]({
-                    value: compInfo.args.value,
-                    imgurl: compInfo.args.imgurl,
+                    // value: compInfo.args.value,
+                    // imgurl: compInfo.args.imgurl,
+                    ...compInfo.args,
                     key: compInfo.id,
                     style: {
                         ...blockStyles,
                         position: 'relative',
                         left: 0,
-                        top: 0
+                        top: 0,
                     },
                 })
             }

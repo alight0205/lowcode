@@ -13,12 +13,17 @@ const Preview = () => {
             <button style={{ position: 'fixed' }} onClick={() => {
                 navigate('/home')
             }}>返回工作台</button>
-            {workbenchList.map((item: CompItem_Workbench) => (
-                componentMap[item.type]({
-                    ...item.args,
-                    key: item.id
-                })
-            ))}</div>
+            {workbenchList.map((item: CompItem_Workbench) => {
+                console.log(item);
+                
+                return (
+                    componentMap[item.type]({
+                        ...item.args,
+                        key: item.id
+                    })
+                )
+            }
+            )}</div>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { WorkbenchListState } from '../../../../utils/interface'
 import {
@@ -25,7 +25,25 @@ const ComponentEdit: React.FC = () => {
 
   const [form] = Form.useForm();
 
+  // 是否显示 图片url输入框
+  const imgStyles = useMemo(() => {
+    if(EditInfo) {
+      return EditInfo.type=='img'?'block':'none';
+    }
+  },[EditInfo])
+
+  // 是否显示 轮播图输入
+  const carouselStyles = useMemo(() => {
+    if(EditInfo) {
+      return EditInfo.type=='carousel'?'block':'none';
+    }
+  },[EditInfo])
+
   const onFinish = (values: any) => {
+    let imgList:string[] = [];
+    if(values.carousel) {
+      imgList = values.carousel.split(' ');            
+    }
     dispatch(setElement(
       {
         id: EditInfo.id,
@@ -34,6 +52,8 @@ const ComponentEdit: React.FC = () => {
         args:
         {
           value: values.text? values.text : EditInfo.args.value,
+          imgurl: values.imgUrl?values.imgUrl:EditInfo.args.imgurl,
+          imgs: imgList? imgList: '',
           style:
           {
             ...EditInfo.args.style,
@@ -42,6 +62,8 @@ const ComponentEdit: React.FC = () => {
             top: values.top ? values.top + values.topSuffix : EditInfo.args.style.top,
             width: values.width ? values.width + values.widthSuffix : EditInfo.args.style.width,
             height: values.height ? values.height + values.heightSuffix : EditInfo.args.style.height,
+            fontSize: values.fontSize ? values.fontSize + values.fontSuffix : EditInfo.args.style.fontSize,
+            backgroundSize: values.backgroundSize,
             color: values.color,
             backgroundColor: values.backgroundColor,
             zIndex: values.zIndex,
@@ -68,6 +90,13 @@ const ComponentEdit: React.FC = () => {
       top: parseFloat(EditInfo.args.style.top),
       width: parseFloat(EditInfo.args.style.width),
       height: parseFloat(EditInfo.args.style.height),
+      text: EditInfo.args.value,
+      fontSize: EditInfo.args.style.fontSize?parseFloat(EditInfo.args.style.fontSize):'',
+      imgUrl: EditInfo.args.imgurl?EditInfo.args.imgurl:'',
+      carousel: EditInfo.args.imgs?EditInfo.args.imgs:'',
+      color: EditInfo.args.style.color,
+      backgroundColor: EditInfo.args.style.backgroundColor,
+      zIndex: EditInfo.args.style.zIndex
     }
     form.setFieldsValue(obj)
 
@@ -152,12 +181,40 @@ const ComponentEdit: React.FC = () => {
               label="text"
               name="text"
             >
-              <Input placeholder="默认"/>
+              <Input placeholder={EditInfo&&EditInfo.args.value}/>
+            </Form.Item>
+
+            {/* 字体大小 */}
+            <Form.Item
+              label="字体大小"
+              name="fontSize"
+            >
+              <InputNumber placeholder="默认" addonAfter={suffixSelector('fontSuffix',['px','em','rem'])} />
             </Form.Item>
             
-            {
-              EditInfo && EditInfo.type == 'img' && <Form.Item label="imgUrl" name="imgUrl"> <Input placeholder="默认"/> </Form.Item>
-            }
+            {/* 图片属性 特有 */}
+            {/* 图片链接 -- 如果类型是图片的话 */}
+            <Form.Item label="imgUrl" name="imgUrl" style={{display:imgStyles}}>
+              <Input placeholder={EditInfo&&EditInfo.args.imgurl}/> 
+            </Form.Item>
+
+            <Form.Item label="图片大小" 
+                       name="backgroundSize" 
+                       style={{display:imgStyles}}
+                       initialValue="contain"
+            >
+              <Select>
+                <Option value="length">length</Option>
+                <Option value="percentage">percentage</Option>
+                <Option value="cover">cover</Option>
+                <Option value="contain">contain</Option>
+              </Select>
+            </Form.Item>
+
+            {/* 轮播图 */}
+            <Form.Item label="carousel" name="carousel" style={{display:carouselStyles}}>
+              <TextArea placeholder="默认"/> 
+            </Form.Item>
 
             {/* 层级 */}
             <Form.Item
