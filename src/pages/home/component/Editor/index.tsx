@@ -41,8 +41,8 @@ const ComponentEdit: React.FC = () => {
 
   const onFinish = (values: any) => {
     let imgList:string[] = [];
-    if(values.carousel) {
-      imgList = values.carousel.split(' ');            
+    if(EditInfo.type=='carousel') {      
+      imgList = values.carousel.length>0 && values.carousel.split(' ');            
     }
     dispatch(setElement(
       {
@@ -93,7 +93,7 @@ const ComponentEdit: React.FC = () => {
       text: EditInfo.args.value,
       fontSize: EditInfo.args.style.fontSize?parseFloat(EditInfo.args.style.fontSize):'',
       imgUrl: EditInfo.args.imgurl?EditInfo.args.imgurl:'',
-      carousel: EditInfo.args.imgs?EditInfo.args.imgs:'',
+      carousel: EditInfo.args.imgs?EditInfo.args.imgs.join(' '):'',
       color: EditInfo.args.style.color,
       backgroundColor: EditInfo.args.style.backgroundColor,
       zIndex: EditInfo.args.style.zIndex
